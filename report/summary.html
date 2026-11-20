@@ -1,0 +1,172 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>한 장 요약</title>
+<style id="proto-style">
+
+:root{--main:#3366ff;--accent:#e4694c;--bg:#ffffff;--surface:#f4f6fb;--text:#1d1d1f;--sub:#55555c;--line:#e3e5ec;--radius:16px}
+*{box-sizing:border-box}body{margin:0;background:#eceef1;font-family:system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--text);line-height:1.6}
+.device{width:1200px;max-width:100%;min-height:720px;margin:24px auto;background:var(--bg);border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.12);overflow:hidden;position:relative}
+.screen{display:none;min-height:720px}.screen.on{display:block}
+#toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}#toast.on{opacity:1}
+#idx{position:fixed;right:16px;top:16px;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer}
+#list{position:fixed;right:16px;top:56px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;display:none;max-height:70vh;overflow:auto;min-width:200px}#list.on{display:block}#list a{display:block;padding:6px 8px;color:var(--text);text-decoration:none;font-size:14px;border-radius:8px}#list a:hover{background:#f2f2f5}
+/* 공통 부품 스타일은 여기 아래에 */
+h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size:20px;font-weight:700}h3{font-size:17px;font-weight:700}
+.sub{color:var(--sub);font-size:13px}
+.btn,.btn-line{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:transform .08s}
+.btn{background:var(--main);color:#fff;border:none}.btn-line{background:#fff;color:var(--text);border:1.5px solid var(--line)}
+.btn:active,.btn-line:active,.chip:active,.tab:active,.card:active{transform:scale(.97)}
+.btn.sm,.btn-line.sm{min-height:44px;padding:0 16px;font-size:14px}
+.input{height:48px;border:1.5px solid var(--line);border-radius:12px;padding:0 16px;font:inherit;font-size:15px;width:100%}.input:focus{outline:none;border-color:var(--main)}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:14px;cursor:pointer;color:var(--text)}
+.chip.on{background:var(--main);border-color:var(--main);color:#fff;font-weight:700}
+.tabs{display:inline-flex;gap:4px;background:var(--surface);border-radius:14px;padding:4px}
+.tab{min-height:44px;min-width:72px;padding:0 16px;border:none;border-radius:10px;background:transparent;font:inherit;font-size:14px;cursor:pointer;color:var(--text)}.tab.on{background:#fff;color:var(--main);font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.card{display:flex;flex-direction:column;border:1.5px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff;color:inherit;text-decoration:none;transition:border-color .15s,transform .08s}.card:hover{border-color:var(--main)}
+.ph{background:#dfe3ec;color:var(--sub);display:flex;align-items:center;justify-content:center;font-size:13px;text-align:center}
+.badge{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px;background:#e8eeff;color:#1f45b8}
+.badge-accent{display:inline-block;font-size:12px;font-weight:800;border-radius:6px;padding:2px 8px;background:var(--accent);color:#1d1d1f}
+.box{background:var(--surface);border-radius:var(--radius);padding:20px}
+.topbar{display:flex;align-items:center;gap:16px;padding:16px 32px;border-bottom:1.5px solid var(--line);background:#fff}
+.logo{font-size:24px;font-weight:800;color:var(--main);letter-spacing:-.5px;text-decoration:none}
+.mascot{width:28px;height:28px;border-radius:50%;background:var(--accent);display:inline-block}
+.pending{color:#b2391e;font-weight:800}
+.state-bar{display:flex;gap:8px;justify-content:center;padding:16px;border-top:1.5px dashed var(--line);background:#fafbfd}
+
+</style>
+<style>
+html,body{margin:0;background:#e9eaee;font-family:system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#1d1d1f}
+#rp-bar{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;padding:10px 16px;background:#1d1d1f;color:#fff;font-size:14px}
+#rp-bar button{font:inherit;font-weight:600;padding:8px 16px;border:0;border-radius:8px;background:#fff;color:#1d1d1f;cursor:pointer}
+#rp-board{width:1600px;margin:20px auto;background:#fff;padding:40px 44px;box-sizing:border-box;display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+.rp-head{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;border-bottom:3px solid #1d1d1f;padding-bottom:16px}
+.rp-head h1{margin:0;font-size:40px;line-height:1.15}.rp-head p{margin:6px 0 0;font-size:19px;color:#444}.rp-meta{text-align:right;font-size:15px;color:#555;white-space:nowrap}
+.rp-card{border:1px solid #d9d9de;border-radius:14px;padding:18px 20px;min-width:0;background:#fff}
+.rp-card h2{margin:0 0 10px;font-size:15px;letter-spacing:.04em;color:#666;font-weight:600}
+.rp-card ul,.rp-card ol{margin:0;padding-left:20px;font-size:16px;line-height:1.55}.rp-card p{margin:0;font-size:16px;line-height:1.55}
+.rp-steps{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rp-step{border-radius:12px;background:#f3f4f7;padding:14px 16px}.rp-step b{display:block;font-size:17px;margin-bottom:4px}.rp-step span{font-size:15px;color:#333;line-height:1.5}
+.rp-flow{grid-column:1/-1}.rp-flow .mermaid{margin:0;text-align:center}.rp-flow svg{max-width:100%;height:auto}
+.rp-check{grid-column:span 5}.rp-design{grid-column:span 3}.rp-decide{grid-column:span 4}
+.rp-table{width:100%;border-collapse:collapse;font-size:15px}.rp-table td,.rp-table th{border-top:1px solid #e3e3e8;padding:6px 6px;text-align:left;vertical-align:top}
+.rp-tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:13px;font-weight:600}.rp-ok{background:#e2f4e6;color:#1c6b2f}.rp-weak{background:#fff0d6;color:#8a5a00}.rp-miss{background:#ffe3e0;color:#a3261a}
+.rp-chips{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}.rp-chip{display:flex;align-items:center;gap:8px;font-size:14px}.rp-chip i{width:28px;height:28px;border-radius:8px;border:1px solid #0002;display:inline-block}
+.rp-screens{grid-column:span 8}.rp-next{grid-column:span 4}
+.rp-shots{display:flex;gap:18px;flex-wrap:wrap}.rp-shotbox{width:390px}.rp-shotbox figcaption{font-size:14px;margin-top:8px;text-align:center;color:#333}
+.rp-shot{width:390px;height:234px;overflow:hidden;border:1px solid #cfcfd6;border-radius:16px;background:#fff;position:relative}
+.rp-shot>.screen{display:block!important;width:1200px;min-height:720px;transform:scale(.325);transform-origin:0 0;pointer-events:none}
+.rp-empty{color:#888;font-size:15px}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head><body>
+<div id="rp-bar"><button id="rp-save">이미지로 저장</button><span id="rp-msg">아래 한 장이 그대로 이미지가 돼요.</span></div>
+<div id="rp-board">
+ <header class="rp-head"><div><h1>Gempick (겜픽)</h1><p>PC·콘솔·모바일 게임을 한곳에 모으고, 시간·과금·광고·인원·기기 같은 상황 조건을 고르면 맞는 게임만 추려 보여주는 반응형 웹 플랫폼</p></div><div class="rp-meta">게임추천플랫폼 6팀<br>팀원: [팀원 이름]<br>2026-11-20</div></header>
+ <section class="rp-steps">
+  <div class="rp-step"><b>1. 자료 지도</b><span>자료 위치와 화면 목록 6개 정리 (메뉴 구조가 없어 초안)</span></div>
+  <div class="rp-step"><b>2. 서비스 플로우</b><span>플로우 1개 (핵심: 친구들과 함께할 게임 찾기), 화면 6개 모두 필요로 판단, 빠진 화면 2개(4.0, 5.0) 추가</span></div>
+  <div class="rp-step"><b>3. 기획 점검</b><span>핵심 기능 9개 중 들어감 6, 약함 3, 빠짐 0. 기획서 3곳 수정</span></div>
+  <div class="rp-step"><b>4. 디자인</b><span>스타일 가이드 확정, 화면 6개 중 1개(2.0) 완성</span></div>
+ </section>
+ <section class="rp-card rp-flow"><h2>핵심 플로우</h2><pre class="mermaid">
+flowchart LR
+  S2_0["조건 선택 결과 2.0"] -->|"함께 플레이 비용 칩 선택 후 PC 탭"| S2_0
+  S2_0 -->|"결과 카드 누름"| S2_1["게임 상세 2.1"]
+  S2_1 -->|"스토어 버튼"| EXT["외부 스토어 목표 달성"]
+  S2_0 -.->|"결과 0개 일부 조건 만족 관련 게임 카드"| S2_1
+  S2_0 -.->|"결과 0개 보조 마스코트에게 물어보기"| S3_0["마스코트 챗봇 3.0"]
+  S3_0 -.->|"이 조건으로 전체 결과 보기"| S2_0
+  S2_1 -.->|"사양 확인 중 보정 요청 후 돌아가기"| S2_0
+  S2_1 -.->|"조건 안 맞음 비슷한 게임"| S2_1
+  classDef has fill:#e8f1ff,stroke:#4a7fd6
+  classDef none fill:#fff4e0,stroke:#d68a1a,stroke-dasharray:4
+  classDef new fill:#ffecec,stroke:#c44,stroke-dasharray:4
+  class S2_0,S2_1,S3_0 has
+ </pre></section>
+ <section class="rp-card rp-check"><h2>기획 점검 결과</h2><table class="rp-table"><tr><th>핵심 기능</th><th>판정</th><th>그래서</th></tr>
+  <tr><td>조건 옵션 4묶음</td><td><span class="rp-tag rp-ok">들어감</span></td><td>매칭 안정성을 MVP 우선 구현으로</td></tr>
+  <tr><td>결과 화면 (카드형)</td><td><span class="rp-tag rp-ok">들어감</span></td><td>결과 0개면 관련 게임 먼저 추천</td></tr>
+  <tr><td>"확인 중" + 보정 요청</td><td><span class="rp-tag rp-ok">들어감</span></td><td></td></tr>
+  <tr><td>이용자 보정</td><td><span class="rp-tag rp-ok">들어감</span></td><td></td></tr>
+  <tr><td>스토어 연결</td><td><span class="rp-tag rp-ok">들어감</span></td><td></td></tr>
+  <tr><td>마스코트 챗봇</td><td><span class="rp-tag rp-ok">들어감</span></td><td>갈림길에서만, 보조 역할로</td></tr>
+  <tr><td>내 기기 설정</td><td><span class="rp-tag rp-weak">약함</span></td><td>플로우 2를 새로 그린다</td></tr>
+  <tr><td>취향 학습 개인화</td><td><span class="rp-tag rp-weak">약함</span></td><td>로그인 사용자만, 기획서에 명시</td></tr>
+  <tr><td>홍보 라벨</td><td><span class="rp-tag rp-weak">약함</span></td><td>그대로 둔다</td></tr>
+ </table></section>
+ <section class="rp-card rp-design"><h2>디자인 방향</h2><p>생기있다 · 친근하다 · 가볍다</p><div class="rp-chips"><span class="rp-chip"><i style="background:#3366ff"></i>주 색 #3366FF</span><span class="rp-chip"><i style="background:#e4694c"></i>강조 색 #E4694C</span><span class="rp-chip"><i style="background:#f4f6fb"></i>면 #F4F6FB</span><span class="rp-chip"><i style="background:#1d1d1f"></i>글자 #1D1D1F</span></div><p>둥글고 친근한 글자: 굵은 제목 + 넓은 줄 간격, 둥근 모서리. PC 웹 1200px</p></section>
+ <section class="rp-card rp-decide"><h2>우리가 내린 결정과 이유</h2><ol>
+  <li>결과 0개면 관련 게임 추천을 먼저, 챗봇은 보조로. 조건을 포기하게 하지 않고 일부 조건을 만족하는 매칭 가능 게임을 추천하며, 챗봇이 없는 MVP에서도 동작</li>
+  <li>로그인은 선택형(게스트 가능). 웹 우선 운영, 로그인하면 더 나은 맞춤 설정, 게스트로도 이용 가능</li>
+  <li>취향 학습은 로그인 사용자만. 로그인 이점을 분명히 하고, 게스트는 정보를 기억하지 못하므로</li>
+ </ol></section>
+ <section class="rp-card rp-screens"><h2>주요 화면 (핵심 플로우 순서)</h2><div class="rp-shots">
+  <figure class="rp-shotbox" style="margin:0"><div class="rp-shot"><section class="screen" data-name="조건 선택 · 결과">
+  <header class="topbar">
+    <a class="logo" href="#2.0">Gempick</a>
+    <label style="flex:1;display:flex;flex-direction:column;gap:2px"><span class="sub">게임 검색</span><input class="input" type="search" placeholder="게임 이름이나 키워드"></label>
+    <a class="btn-line sm" href="#5.0">내 기기: PC · 모바일</a>
+    <a class="btn-line sm" href="#3.0"><span class="mascot" aria-hidden="true"></span>마스코트에게 물어보기</a>
+    <a class="btn sm" href="#4.0">로그인</a>
+  </header>
+  <div style="padding:32px;display:flex;flex-direction:column;gap:28px">
+    <section class="box" style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><h1>지금 내 상황은?</h1><span class="sub">조건을 고르면 맞는 게임만 추려 보여드려요</span></div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+        <fieldset class="cond"><legend>비용 · 시간</legend><button class="chip">무과금 가능</button><button class="chip on">1만 원 이하</button><button class="chip">하루 20분 이하</button><button class="chip">한 판 5분 이내</button><button class="chip">출석 부담 없음</button></fieldset>
+        <fieldset class="cond"><legend>광고 · 접속</legend><button class="chip">강제 광고 없음</button><button class="chip">광고 적음</button><button class="chip">오프라인 가능</button><button class="chip">데이터 적게 씀</button></fieldset>
+        <fieldset class="cond"><legend>함께 플레이</legend><button class="chip">혼자</button><button class="chip">2인</button><button class="chip">3~4인</button><button class="chip on">5인 이상</button><button class="chip on">협동</button><button class="chip">경쟁</button><button class="chip on">크로스플랫폼</button></fieldset>
+        <fieldset class="cond"><legend>취향 · 난이도</legend><button class="chip">귀여운 그래픽</button><button class="chip">힐링</button><button class="chip">어두운 분위기</button><button class="chip">조작 쉬움</button><button class="chip">피지컬 필요</button></fieldset>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:12px"><button class="btn-line" onclick="document.getElementById('2.0').querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));toast('조건을 초기화했어요')">조건 초기화</button><button class="btn" onclick="toast('결과를 새로 불러왔어요')">결과 보기</button></div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <h2 id="r20-title">조건에 맞는 게임 [N]개</h2>
+        <div class="tabs" role="group" aria-label="플랫폼"><button class="tab">전체</button><button class="tab">모바일</button><button class="tab on">PC</button><button class="tab">콘솔</button></div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px" class="sub"><span>적용된 조건</span><span class="badge">1만 원 이하 ×</span><span class="badge">5인 이상 ×</span><span class="badge">협동 ×</span><span class="badge">크로스플랫폼 ×</span></div>
+
+      <div id="r20-list" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+        <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><div><span class="badge">PC</span> <span class="badge">스위치</span></div><h3>게임 이름 B</h3><dl><dt>과금</dt><dd>구매형 [가격]</dd><dt>하루 시간</dt><dd>자유</dd><dt>광고</dt><dd>없음</dd><dt>인원</dt><dd>1~4인</dd></dl></div></a>
+        <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><div><span class="badge">PC</span></div><h3>게임 이름 D</h3><dl><dt>과금</dt><dd>무과금 가능</dd><dt>하루 시간</dt><dd>약 20분</dd><dt>광고</dt><dd>없음</dd><dt>인원</dt><dd>2~5인</dd></dl></div></a>
+        <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10;position:relative">게임 아이콘 · 대표 이미지<span class="badge-accent" style="position:absolute;top:10px;left:10px">홍보</span></div><div class="cbody"><div><span class="badge">PC</span></div><h3>게임 이름 C</h3><dl><dt>과금</dt><dd>무과금 가능</dd><dt>하루 시간</dt><dd>약 10분</dd><dt>광고</dt><dd class="pending">확인 중</dd><dt>인원</dt><dd>최대 6인</dd></dl></div></a>
+        <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><div><span class="badge">PC</span> <span class="badge">PS</span></div><h3>게임 이름 H</h3><dl><dt>과금</dt><dd class="pending">확인 중</dd><dt>하루 시간</dt><dd>자유</dd><dt>광고</dt><dd>없음</dd><dt>인원</dt><dd>최대 8인</dd></dl></div></a>
+      </div>
+
+      <div id="r20-empty" style="display:none;flex-direction:column;gap:16px">
+        <div class="box" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+          <div><h3>조건에 딱 맞는 게임이 없어요</h3><p class="sub" style="margin:4px 0 0">조건을 버리지 않아도 돼요. 고른 조건 중 일부를 만족하고 매칭이 잘 되는 게임을 골랐어요.</p></div>
+          <a class="btn-line sm" href="#3.0"><span class="mascot" aria-hidden="true"></span>마스코트에게 물어보기</a>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+          <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><span class="badge" style="align-self:flex-start">조건 3/4 일치 · 매칭 원활</span><h3>게임 이름 J</h3><p class="sub" style="margin:0">맞지 않는 조건: 1만 원 이하</p></div></a>
+          <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><span class="badge" style="align-self:flex-start">조건 3/4 일치 · 매칭 원활</span><h3>게임 이름 K</h3><p class="sub" style="margin:0">맞지 않는 조건: 크로스플랫폼</p></div></a>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="state-bar"><span class="sub" style="align-self:center">모습 바꿔 보기</span><button class="btn-line sm" onclick="r20(false)">결과 있음</button><button class="btn-line sm" onclick="r20(true)">결과 없음 보기</button></div>
+  <style>
+    .cond{margin:0;border:1.5px solid var(--line);border-radius:var(--radius);background:#fff;padding:12px 16px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;align-content:flex-start}.cond legend{font-weight:700;font-size:15px;padding:0 4px}
+    .cbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}.cbody dl{margin:0;display:grid;grid-template-columns:64px 1fr;row-gap:4px;font-size:13px}.cbody dt{color:var(--sub)}.cbody dd{margin:0}
+  </style>
+  <script>
+    function r20(empty){document.getElementById('r20-list').style.display=empty?'none':'grid';document.getElementById('r20-empty').style.display=empty?'flex':'none';document.getElementById('r20-title').textContent=empty?'조건에 맞는 게임 0개':'조건에 맞는 게임 [N]개'}
+  </script>
+</section>
+</div><figcaption>2.0 조건 선택 · 결과</figcaption></figure>
+  <p class="rp-empty">2.1 게임 상세, 3.0 마스코트 챗봇은 아직 만들지 않았어요</p>
+ </div></section>
+ <section class="rp-card rp-next"><h2>다음에 할 일</h2><ul><li>/design 으로 2.1 게임 상세부터 나머지 화면 만들기</li><li>/flow 로 플로우 2 (처음 온 사용자가 기기를 고르고 첫 게임 찾기) 그리기</li><li>"이유 확인 필요"로 남은 결정의 이유 채우기</li></ul></section>
+</div>
+<script>
+mermaid.initialize({startOnLoad:true,theme:"neutral",flowchart:{htmlLabels:false}});
+document.getElementById("rp-save").onclick=async()=>{const m=document.getElementById("rp-msg");
+ if(!window.html2canvas){m.textContent="인터넷이 안 돼서 저장 도구를 못 불러왔어요. 화면 캡처로 저장하세요.";return}
+ m.textContent="만드는 중이에요.";
+ try{const c=await html2canvas(document.getElementById("rp-board"),{scale:1.5,backgroundColor:"#ffffff",useCORS:true});
+  const a=document.createElement("a");a.download="summary.png";a.href=c.toDataURL("image/png");a.click();m.textContent="summary.png 로 저장했어요. 다운로드 폴더를 확인하세요."}
+ catch(e){m.textContent="저장하지 못했어요. 화면 캡처로 저장하세요."}};
+</script></body></html>
