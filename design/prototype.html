@@ -74,15 +74,15 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
           <a class="btn-line sm" href="#3.0"><span class="mascot" aria-hidden="true"></span>마스코트에게 물어보기</a>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
-          <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><span class="badge">조건 3/4 일치 · 매칭 원활</span><h3>게임 이름 J</h3><p class="sub" style="margin:0">맞지 않는 조건: 1만 원 이하</p></div></a>
-          <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><span class="badge">조건 3/4 일치 · 매칭 원활</span><h3>게임 이름 K</h3><p class="sub" style="margin:0">맞지 않는 조건: 크로스플랫폼</p></div></a>
+          <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><span class="badge" style="align-self:flex-start">조건 3/4 일치 · 매칭 원활</span><h3>게임 이름 J</h3><p class="sub" style="margin:0">맞지 않는 조건: 1만 원 이하</p></div></a>
+          <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><span class="badge" style="align-self:flex-start">조건 3/4 일치 · 매칭 원활</span><h3>게임 이름 K</h3><p class="sub" style="margin:0">맞지 않는 조건: 크로스플랫폼</p></div></a>
         </div>
       </div>
     </section>
   </div>
   <div class="state-bar"><span class="sub" style="align-self:center">모습 바꿔 보기</span><button class="btn-line sm" onclick="r20(false)">결과 있음</button><button class="btn-line sm" onclick="r20(true)">결과 없음 보기</button></div>
   <style>
-    .cond{margin:0;border:1.5px solid var(--line);border-radius:var(--radius);background:#fff;padding:12px 16px 16px;display:flex;flex-wrap:wrap;gap:8px}.cond legend{font-weight:700;font-size:15px;padding:0 4px}
+    .cond{margin:0;border:1.5px solid var(--line);border-radius:var(--radius);background:#fff;padding:12px 16px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;align-content:flex-start}.cond legend{font-weight:700;font-size:15px;padding:0 4px}
     .cbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}.cbody dl{margin:0;display:grid;grid-template-columns:64px 1fr;row-gap:4px;font-size:13px}.cbody dt{color:var(--sub)}.cbody dd{margin:0}
   </style>
   <script>
