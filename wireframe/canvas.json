@@ -33,6 +33,22 @@
       "w": 1280,
       "x": 15,
       "y": 0
+    },
+    "4.0-login.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "05 로그인 (선택형)",
+      "w": 1280,
+      "x": 5440,
+      "y": 0
+    },
+    "5.0-settings.dc.html": {
+      "expand": "fill",
+      "h": 820,
+      "title": "06 설정 (내 기기 수정)",
+      "w": 1280,
+      "x": 6800,
+      "y": 0
     }
   },
   "createdOnFiles": {
@@ -46,7 +62,7 @@
   "notes": {
     "flowTitle": {
       "kind": "title1",
-      "maxW": 5360,
+      "maxW": 8080,
       "text": "Gempick 반응형 웹 · 주요 화면 흐름",
       "w": 240,
       "x": 0,
@@ -57,7 +73,9 @@
     "Main.dc.html",
     "Onboarding.dc.html",
     "Detail.dc.html",
-    "Chat.dc.html"
+    "Chat.dc.html",
+    "4.0-login.dc.html",
+    "5.0-settings.dc.html"
   ],
   "pages": [],
   "title": "Gempick 와이어프레임"

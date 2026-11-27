@@ -55,17 +55,49 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 .fs{border-radius:24px 24px 38px 38px}.fs-dim{border-radius:38px}@media (max-width:440px){.fs{border-radius:24px 24px 0 0}.fs-dim{border-radius:0}}
 .fs-foot{display:grid;grid-template-columns:auto 1fr;gap:8px;padding:12px 16px 20px;border-top:1.5px solid var(--line)}
 
+/* 1.0 · 4.0 · 5.0 공통 */
+.btn:disabled{background:#c9bfff;cursor:not-allowed}.btn:disabled:active{transform:none}
+.dev{display:flex;flex-direction:column;gap:10px}
+.dev label{display:flex;align-items:center;gap:14px;min-height:76px;padding:14px 16px;border:1.5px solid var(--line);border-radius:var(--radius);background:#fff;cursor:pointer;transition:border-color .15s,background .15s}
+.dev label:has(input:checked){border-color:var(--main);background:#f3efff;box-shadow:inset 0 0 0 .5px var(--main)}
+.dev .ico{flex:none;width:48px;height:48px;border-radius:14px;background:var(--surface);color:var(--main);display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s}
+.dev label:has(input:checked) .ico{background:var(--main);color:#fff}
+.dev svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dev .t{flex:1;display:flex;flex-direction:column;line-height:1.35}.dev .t strong{font-size:17px}
+.dev input{width:22px;height:22px;margin:0;accent-color:var(--main);flex:none;cursor:pointer}
+.plain{margin:0;padding:0;border:none;min-width:0}.plain legend{font-size:13px;font-weight:700;color:var(--sub);padding:0;margin-bottom:10px}
+.foot{position:sticky;bottom:0;background:#fff;border-top:1.5px solid var(--line);padding:12px 16px 16px;display:grid;grid-template-columns:auto 1fr;gap:8px}
+.alert{border-radius:12px;padding:12px 14px;font-size:14px;background:#fff1f1;color:#b42318;border:1.5px solid #f6caca}
+.perk{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:14px}.perk li{display:flex;gap:8px;align-items:center}.perk li::before{content:"✓";flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--text);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .state-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:16px;border-top:1.5px dashed var(--line);background:#faf9ff}
 </style></head><body>
 <button id="idx">화면 목록</button><div id="list"></div>
 <div class="device"><div class="statusbar" aria-hidden="true"><span>9:41</span><i></i><span>●●● ▮</span></div>
 <!-- 화면은 여기에 하나씩 추가: <section class="screen" id="1.0" data-name="홈"> ... </section> -->
+<section class="screen" id="1.0" data-name="가입 · 내 기기 설정">
+  <div style="display:flex;flex-direction:column;min-height:100%">
+    <header class="topbar">
+      <span class="logo">Gempick</span>
+      <span class="sub" style="margin-left:auto">가입 2 / 2단계</span>
+    </header>
+    <div style="flex:1;padding:24px 16px;display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+        <img data-m="thinking" alt="" style="width:84px;height:84px;object-fit:contain;margin-left:-6px">
+        <h1 style="font-size:24px">어떤 기기로 게임하세요?</h1>
+        <p class="sub" style="font-size:15px;margin:0">선택사항이에요. 고른 기기 기준으로 결과를 좁혀 드리고, 설정에서 언제든 바꿀 수 있어요.</p>
+      </div>
+      <fieldset class="plain"><legend>보유 기기 (여러 개 선택 가능)</legend><div class="dev" id="d10-list"></div></fieldset>
+      <p class="sub" style="margin:0">건너뛰면 모든 기기의 게임이 플랫폼 배지와 함께 보여요. 결과 화면의 전체 · 모바일 · PC · 콘솔 탭으로 나눠 볼 수 있어요.</p>
+    </div>
+    <div class="foot"><button class="btn-line" onclick="d10(false)">건너뛰기</button><button class="btn" id="d10-go" onclick="d10(true)">완료하고 시작하기</button></div>
+  </div>
+</section>
 <section class="screen" id="2.0" data-name="조건 선택 · 결과">
   <header class="topbar">
     <a class="logo" href="#2.0">Gempick</a>
-    <a class="btn sm" href="#4.0" style="margin-left:auto">로그인</a>
+    <a class="btn sm" id="r20-login" href="#4.0" style="margin-left:auto">로그인</a>
     <label style="flex:1 1 100%;display:flex;flex-direction:column;gap:2px"><span class="sr">게임 검색</span><input class="input" type="search" placeholder="🔍  게임 이름이나 키워드" style="height:44px;border-radius:999px;background:var(--surface);border-color:transparent"></label>
-    <div style="flex:1 1 100%;display:flex;gap:8px;overflow-x:auto"><a class="btn-line sm" href="#5.0" style="flex:none">내 기기: PC · 모바일</a><a class="btn-line sm" href="#3.0" style="flex:none"><span class="mascot" aria-hidden="true"></span>마스코트에게</a></div>
+    <div style="flex:1 1 100%;display:flex;gap:8px;overflow-x:auto"><a class="btn-line sm" id="r20-dev" href="#5.0" style="flex:none">내 기기: PC · 모바일</a><a class="btn-line sm" href="#3.0" style="flex:none"><span class="mascot" aria-hidden="true"></span>마스코트에게</a></div>
   </header>
   <div style="padding:20px 16px;display:flex;flex-direction:column;gap:24px">
     <section style="display:flex;flex-direction:column;gap:14px">
@@ -164,7 +196,6 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
       <div class="bub bot say">오늘은 어떤 게임 찾아요? 누구랑, 어디서, 얼마나 할지 말해 주세요.</div>
       <div class="bub me">친구 다섯 명이랑 PC로 같이 할 거 찾는데, 다들 사양이 달라서 무거운 건 안 돼. 너무 비싸도 곤란해.</div>
       <div id="c30-ans" class="bub bot" style="white-space:normal;max-width:100%;display:flex;flex-direction:column;gap:12px"></div>
-      </div>
     </div>
     <form onsubmit="c30send(event)" style="position:sticky;bottom:0;background:#fff;border-top:1.5px solid var(--line);padding:12px 16px;display:flex;gap:8px;align-items:flex-end">
       <label style="flex:1;display:flex;flex-direction:column;gap:2px"><span class="sub" style="font-size:12px">메시지</span><input id="c30-msg" class="input" type="text" placeholder="무엇이든 물어보세요 · 예: 로블록스 공포 게임 추천"></label>
@@ -181,6 +212,52 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 
   </script>
 </section>
+<section class="screen" id="4.0" data-name="로그인 (선택형)">
+  <header class="topbar">
+    <span class="logo">Gempick</span>
+    <button class="btn-line sm" onclick="l40close()" aria-label="닫고 이전 화면으로" style="margin-left:auto;width:44px;padding:0;font-size:20px">×</button>
+  </header>
+  <div style="padding:24px 16px;display:flex;flex-direction:column;gap:24px">
+    <div id="l40-err" class="alert" role="alert" style="display:none">로그인하지 못했어요. 다시 시도하거나 게스트로 계속할 수 있어요.</div>
+    <div style="display:flex;flex-direction:column;align-items:flex-start;gap:10px">
+      <img id="l40-m" data-m="happy" alt="" style="width:84px;height:84px;object-fit:contain;margin-left:-6px">
+      <h1 style="font-size:24px">로그인하지 않아도 쓸 수 있어요</h1>
+      <p class="sub" style="font-size:15px;margin:0">간편 로그인이나 게스트로 시작하세요.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <span class="sub" style="font-weight:700">간편 로그인</span>
+      <button class="btn-line" style="min-height:52px" onclick="l40('[간편 로그인 방식 1]')">[간편 로그인 방식 1]로 계속하기</button>
+      <button class="btn-line" style="min-height:52px" onclick="l40('[간편 로그인 방식 2]')">[간편 로그인 방식 2]로 계속하기</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;border-top:1.5px solid var(--line);padding-top:20px">
+      <button class="btn" style="min-height:52px" onclick="l40('guest')">게스트로 계속하기</button>
+      <p class="sub" style="margin:0">게스트는 다음에 다시 와도 기기 설정 등 정보를 기억하지 못해요.</p>
+    </div>
+    <div class="box" style="display:flex;flex-direction:column;gap:10px;padding:16px">
+      <strong style="font-size:14px">로그인하면 좋은 점</strong>
+      <ul class="perk"><li>내 기기 설정 기억</li><li>고른 조건 저장</li><li>맞춤 추천</li></ul>
+    </div>
+  </div>
+  <div class="state-bar"><span class="sub" style="align-self:center">모습 바꿔 보기</span><button class="btn-line sm" onclick="l40err(false)">기본</button><button class="btn-line sm" onclick="l40err(true)">로그인 실패</button></div>
+</section>
+<section class="screen" id="5.0" data-name="설정 (내 기기 수정)">
+  <div style="display:flex;flex-direction:column;min-height:100%">
+    <header class="topbar">
+      <a class="btn-line sm" href="#2.0">← 돌아가기</a>
+      <a class="logo" href="#2.0" style="margin-left:auto">Gempick</a>
+    </header>
+    <div style="flex:1;padding:24px 16px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <h1 style="font-size:24px">내 기기 설정</h1>
+        <p style="margin:0">지금 설정: <strong id="d50-now">PC · 모바일</strong></p>
+      </div>
+      <fieldset class="plain"><legend>보유 기기 (여러 개 선택 가능)</legend><div class="dev" id="d50-list"></div></fieldset>
+      <div id="d50-err" class="alert" role="alert" style="display:none">기기를 하나 이상 골라 주세요.</div>
+      <button class="btn-line" onclick="d50('reset')">↺ 기기 선택 초기화 (전체 보기)</button>
+    </div>
+    <div class="foot"><a class="btn-line" href="#2.0">취소</a><button class="btn" id="d50-save" onclick="d50('save')">저장하고 결과 보기</button></div>
+  </div>
+</section>
 <!-- 화면 끝 -->
 </div>
 <div id="toast"></div>
@@ -189,7 +266,7 @@ const S=[...document.querySelectorAll(".screen")],L=document.getElementById("lis
 L.innerHTML=S.map(s=>`<a href="#${s.id}">${s.id} ${s.dataset.name||""}</a>`).join("");
 document.getElementById("idx").onclick=()=>L.classList.toggle("on");
 function toast(m){T.textContent=m;T.classList.add("on");clearTimeout(T._t);T._t=setTimeout(()=>T.classList.remove("on"),1600)}
-function show(){const id=decodeURIComponent(location.hash.slice(1));const t=S.find(s=>s.id===id)||S[0];if(id&&!S.some(s=>s.id===id))toast("아직 만들지 않은 화면이에요");S.forEach(s=>s.classList.toggle("on",s===t));L.classList.remove("on");t.scrollTop=0;window.scrollTo(0,0)}
+function show(){const id=decodeURIComponent(location.hash.slice(1));const t=S.find(s=>s.id===id)||S.find(s=>s.id==="2.0");if(id&&!S.some(s=>s.id===id))toast("아직 만들지 않은 화면이에요");S.forEach(s=>s.classList.toggle("on",s===t));L.classList.remove("on");t.scrollTop=0;window.scrollTo(0,0)}
 addEventListener("hashchange",show);show();
 document.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c&&!c.closest('[id="3.0"]'))c.classList.toggle("on");const t=e.target.closest(".tab");if(t){t.parentElement.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t))}});
 </script>
@@ -208,7 +285,7 @@ const TEST={'무과금 가능':(g,t)=>priceFor(g,t)===0,'1만 원 이하':(g,t)=
 '오프라인 가능':g=>g.off===true,'데이터 적게 씀':g=>g.off===true,'저사양':g=>g.low,'혼자':g=>g.min===1,'2인':g=>g.min<=2&&g.max>=2,'3~4인':g=>g.min<=4&&g.max>=3,'5인 이상':g=>g.max>=5,
 '협동':g=>g.modes.includes('협동'),'경쟁':g=>g.modes.includes('경쟁'),'크로스플랫폼':g=>g.cross};
 const ok=(g,c,t)=>c.includes(' 또는 ')?c.split(' 또는 ').some(x=>ok(g,x,t)):(TEST[c]||(g=>g.taste.includes(c)))(g,t);
-const onTab=(g,t)=>t==='전체'||g.plat.includes(t);
+const onTab=(g,t)=>t==='전체'?(!DEV.length||g.plat.some(p=>DEV.includes(p))):g.plat.includes(t);
 const GEN=['액션','어드벤처','힐링','퍼즐/캐주얼','RPG','슈팅'];
 const match=(sel,t)=>{const gs=sel.filter(c=>GEN.includes(c)),rest=sel.filter(c=>!GEN.includes(c));return GAMES.filter(g=>onTab(g,t)&&rest.every(c=>ok(g,c,t))&&(!gs.length||gs.some(c=>g.taste.includes(c))))};
 function partial(sel,t){const gs=sel.filter(c=>GEN.includes(c));if(gs.length>1)sel=[...sel.filter(c=>!GEN.includes(c)),gs.join(' 또는 ')];if(sel.length<2)return[];for(let miss=1;miss<sel.length;miss++){const r=GAMES.filter(g=>onTab(g,t)).map(g=>({g,no:sel.filter(c=>!ok(g,c,t))})).filter(x=>x.no.length===miss);if(r.length)return r.slice(0,4)}return[]}
@@ -247,7 +324,7 @@ addEventListener('resize',()=>{if($('fs').classList.contains('on'))place()});add
 S20().addEventListener('click',e=>{const c=e.target.closest('.fpanel[data-radio] .chip');if(c)setTimeout(()=>{if(c.classList.contains('on'))c.parentElement.querySelectorAll('.chip').forEach(x=>{if(x!==c)x.classList.remove('on')});render20()},0)});
 S20().addEventListener('click',e=>{if(e.target.closest('.chip,.tab,.tag,.btn-line'))setTimeout(render20,0);if(e.target.closest('.btn')&&e.target.textContent==='결과 보기'){setTimeout(()=>{$('r20-title').scrollIntoView({behavior:'smooth',block:'start'})},0)}});
 /* ---------- 2.1 ---------- */
-let CUR='stardew',SPECPEND=false;
+let CUR='stardew',SPECPEND=false,DEV=['모바일','PC'];
 window.openGame=function(id){CUR=id;SPECPEND=false;render21();const s=$('2.1');if(s.classList.contains('on'))s.scrollTop=0};
 function render21(){const g=G[CUR],sel=LAST_SEL.filter(c=>ok(g,c,'전체'));
  const cons=g.cons?`<span class="badge">${esc(g.cons)}</span>`:'';
@@ -327,6 +404,30 @@ window.c30send=async function(e){e.preventDefault();if(BUSY)return;const i=$('c3
  catch(err){TURNS.pop();const c=err&&err.code;if(['not_granted','sampling_disabled','not_declared','capability_disabled','capability_removed'].includes(c)){SAMPLE=null;wait.remove();keywordReply(v)}
   else{wait.className='bub bot say';wait.textContent=c==='rate_limited'?'지금 질문이 많아서 잠깐 쉬어야 해요. 조금 뒤에 다시 물어봐 줘요.':'앗, 대답을 못 받아 왔어요. 한 번만 다시 보내 줄래요?'}}
  finally{BUSY=false}};
+/* ---------- 1.0 · 4.0 · 5.0 ---------- */
+const DEVS=[{n:'모바일',s:'iOS · Android',i:'<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>'},
+ {n:'PC',s:'Steam · 에픽 · PC방',i:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg>'},
+ {n:'콘솔',s:'스위치 · PS · Xbox',i:'<svg viewBox="0 0 24 24"><path d="M7.5 8h9a4.5 4.5 0 0 1 4.5 4.5v1a3.5 3.5 0 0 1-6.2 2.2L13.6 14h-3.2l-1.2 1.7A3.5 3.5 0 0 1 3 13.5v-1A4.5 4.5 0 0 1 7.5 8z"/><path d="M8 10.5v3M6.5 12h3M15.5 11h.01M17.5 13h.01"/></svg>'}];
+let RET='2.0';
+const devLabel=()=>DEV.length&&DEV.length<DEVS.length?DEVS.filter(d=>DEV.includes(d.n)).map(d=>d.n).join(' · '):'전체';
+function devList(id,sel){$(id).innerHTML=DEVS.map(d=>`<label><span class="ico" aria-hidden="true">${d.i}</span><span class="t"><strong>${d.n}</strong><span class="sub">${d.s}</span></span><input type="checkbox" value="${d.n}"${sel.includes(d.n)?' checked':''}></label>`).join('')}
+const picked=id=>[...$(id).querySelectorAll('input:checked')].map(x=>x.value);
+function syncDev(){$('r20-dev').textContent='내 기기: '+devLabel();const t=tab20();if(t!=='전체'&&DEV.length&&!DEV.includes(t))setR20(sel20(),'전체');else render20()}
+function upd10(){$('d10-go').textContent=picked('d10-list').length?'완료하고 시작하기':'전체 기기로 시작하기'}
+function upd50(){const n=picked('d50-list').length;$('d50-err').style.display=n?'none':'block';$('d50-save').disabled=!n}
+$('d10-list').addEventListener('change',upd10);$('d50-list').addEventListener('change',upd50);
+window.d10=function(done){const p=done?picked('d10-list'):[];DEV=p;syncDev();toast(p.length?`${p.join(' · ')} 기준으로 보여 드릴게요`:'모든 기기의 게임을 보여 드릴게요');location.hash='#'+RET};
+window.l40=function(how){$('r20-login').textContent=how==='guest'?'게스트':'로그인됨';l40err(false);toast(how==='guest'?'게스트로 계속해요':`${how}로 로그인했어요`);location.hash='#1.0'};
+window.l40err=function(on){$('l40-err').style.display=on?'block':'none';$('l40-m').src=MASCOT[on?'sad':'happy']};
+window.l40close=function(){location.hash='#'+RET};
+window.d50=function(act){if(act==='save'){const p=picked('d50-list');if(!p.length)return;DEV=p;toast('내 기기를 저장했어요')}else{DEV=[];toast('기기 선택을 초기화했어요 · 모든 기기의 게임을 보여 드려요')}syncDev();location.hash='#2.0'};
+function enter(to,from){if(to==='4.0'&&from&&!['4.0','1.0'].includes(from))RET=from;
+ if(to==='1.0'){devList('d10-list',DEV);upd10()}
+ if(to==='5.0'){devList('d50-list',DEV.length?DEV:DEVS.map(d=>d.n));$('d50-now').textContent=devLabel();upd50()}}
+const hid=u=>decodeURIComponent((String(u).split('#')[1])||'');
+addEventListener('hashchange',e=>enter(hid(e.newURL),hid(e.oldURL)||'2.0'));
+enter(hid(location.href),'');
+$('r20-dev').textContent='내 기기: '+devLabel();
 render20();render21();renderAns();
 })();
 </script>
