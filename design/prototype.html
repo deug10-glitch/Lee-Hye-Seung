@@ -19,7 +19,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:24px;font-weight:800}h2{font-size
 .btn{background:var(--main);color:#fff;border:none}.btn:hover{background:var(--main-dark)}.btn-line{background:#fff;color:var(--text);border:1.5px solid var(--line)}
 .btn:active,.btn-line:active,.chip:active,.tab:active,.card:active{transform:scale(.97)}
 .btn.sm,.btn-line.sm{min-height:44px;padding:0 16px;font-size:14px}
-.input{height:48px;border:1.5px solid var(--line);border-radius:12px;padding:0 16px;font:inherit;font-size:15px;width:100%}.input:focus{outline:none;border-color:var(--main)}
+.input{height:48px;border:1.5px solid var(--line);border-radius:12px;padding:0 16px;font:inherit;font-size:15px;width:100%;color:var(--text);background:#fff;-webkit-text-fill-color:var(--text);caret-color:var(--main)}.input::placeholder{color:var(--sub);-webkit-text-fill-color:var(--sub);opacity:1}.input:focus{outline:none;border-color:var(--main)}
 .chip{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:14px;cursor:pointer;color:var(--text)}
 .chip.on{background:var(--main);border-color:var(--main);color:#fff;font-weight:700}
 .tabs{display:inline-flex;gap:4px;background:var(--surface);border-radius:14px;padding:4px}
@@ -119,7 +119,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:24px;font-weight:800}h2{font-size
   <header class="topbar">
     <a class="logo" href="#2.0">Gempick</a>
     <a class="btn sm" id="loginbtn" href="#4.0" style="margin-left:auto">로그인</a>
-    <label style="flex:1 1 100%;display:flex;flex-direction:column;gap:2px"><span class="sr">게임 검색</span><input class="input" type="search" placeholder="🔍  게임 이름이나 키워드" style="height:44px;border-radius:999px;background:var(--surface);border-color:transparent"></label>
+    <label style="flex:1 1 100%;display:flex;flex-direction:column;gap:2px"><span class="sr">게임 검색</span><input class="input" id="q20" type="search" enterkeyhint="search" autocomplete="off" placeholder="🔍  게임 이름이나 키워드 (예: 롤, 배그, 힐링)" style="height:44px;border-radius:999px;background:var(--surface);border-color:transparent"></label>
     <div style="flex:1 1 100%;display:grid;grid-template-columns:auto 1fr;gap:8px"><a class="btn-line sm" id="mydev" href="#5.0" style="padding:0 12px;font-size:13px">내 기기: PC · 모바일</a><a class="btn-line sm" href="#3.0" style="padding:0 10px;font-size:13px;white-space:nowrap"><span class="mascot" aria-hidden="true"></span>뭉픽에게 물어보기</a></div>
   </header>
   <div style="padding:20px 16px;display:flex;flex-direction:column;gap:24px">
@@ -307,14 +307,20 @@ const S20=()=>$('2.0');
 const sel20=()=>[...S20().querySelectorAll('.cond .chip.on')].map(c=>c.textContent);
 const tab20=()=>(S20().querySelector('.tab.on')||{}).textContent||'전체';
 window.LAST_SEL=[];
-function render20(){const sel=sel20(),t=tab20(),r=match(sel,t);LAST_SEL=sel;
- $('r20-title').textContent=`조건에 맞는 게임 ${r.length}개`;
- $('r20-applied').innerHTML='<span>적용된 조건</span>'+(sel.length?sel.map(c=>`<button class="tag" onclick="r20rm(this)">${c} ×</button>`).join(''):'<span>없음 · 위에서 골라 보세요</span>');
+const ALIAS={'롤':'lol 리그 오브 레전드','리그오브레전드':'lol','배그':'pubg pubgm 배틀그라운드','배틀그라운드':'pubg pubgm','피파':'fc26 fcmobile','fifa':'fc26 fcmobile','오버워치':'ow2','옵치':'ow2','발로':'valorant','메이플':'maple maplem','로아':'lostark','마크':'minecraft','마인크래프트':'minecraft','어몽어스':'amongus','롤토체스':'tft','와리':'wildrift','스타듀':'stardew','쿠키런':'cookierun ovenbreak','포켓몬':'unite pogo ptcgp','원신':'genshin','붕스':'hsr','블아':'bluearchive','엘든링':'eldenring nightreign','몬헌':'mhwilds mhw','gta':'gta5','브롤':'brawlstars','클래시':'clashroyale','니케':'nikke'};
+const norm=x=>String(x).toLowerCase().replace(/[\s·:!.\-']/g,'');
+function search(q){const n=norm(q);if(!n)return null;const ids=new Set();Object.entries(ALIAS).forEach(([k,v])=>{if(n.includes(norm(k))||norm(k).includes(n)&&n.length>=2)v.split(' ').forEach(i=>ids.add(i))});
+ return GAMES.filter(g=>ids.has(g.id)||norm(g.name).includes(n)||norm(g.id).includes(n)||g.taste.some(t=>norm(t).includes(n))||g.modes.some(t=>norm(t).includes(n))||g.plat.some(t=>norm(t)===n)||(n.length>=2&&norm(g.intro).includes(n)))}
+function render20(){const sel=sel20(),t=tab20(),q=($('q20')||{}).value||'',sr=search(q),r=sr?sr.filter(g=>onTab(g,t)):match(sel,t);LAST_SEL=sel;
+ $('r20-title').textContent=sr?`'${q.trim()}' 검색 결과 ${r.length}개`:`조건에 맞는 게임 ${r.length}개`;
+ $('r20-applied').innerHTML=sr?'<span>검색 중에는 조건을 잠시 꺼 둬요</span><button class="tag" onclick="document.getElementById(\'q20\').value=\'\';render20()">검색 지우기 ×</button>':'<span>적용된 조건</span>'+(sel.length?sel.map(c=>`<button class="tag" onclick="r20rm(this)">${c} ×</button>`).join(''):'<span>없음 · 위에서 골라 보세요</span>');
  $('r20-list').innerHTML=r.map(g=>card(g,t)).join('');
  updBar(r.length);$('r20-list').style.display=r.length?'grid':'none';$('r20-empty').style.display=r.length?'none':'flex';
- if(!r.length)$('r20-partial').innerHTML=partial(sel,t).map(x=>card(x.g,t,`<span class="badge" style="align-self:flex-start">조건 ${sel.length-x.no.length}/${sel.length} 일치</span>`).replace('</h3>',`</h3><p class="sub" style="margin:0">맞지 않는 조건: ${x.no.join(', ')}</p>`)).join('');
+ if(sr&&!r.length){$('r20-partial').innerHTML='';$('r20-empty').querySelector('h3').textContent=`'${q.trim()}'에 맞는 게임이 없어요`}else $('r20-empty').querySelector('h3').textContent='조건에 딱 맞는 게임이 없어요';
+ if(!sr&&!r.length)$('r20-partial').innerHTML=partial(sel,t).map(x=>card(x.g,t,`<span class="badge" style="align-self:flex-start">조건 ${sel.length-x.no.length}/${sel.length} 일치</span>`).replace('</h3>',`</h3><p class="sub" style="margin:0">맞지 않는 조건: ${x.no.join(', ')}</p>`)).join('');
 }
 window.render20=render20;
+$('q20').addEventListener('input',()=>{if($('q20').value.trim()&&!window._qtab){window._qtab=1;S20().querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.textContent==='전체'))}if(!$('q20').value.trim())window._qtab=0;render20()});$('q20').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('q20').blur();$('r20-title').scrollIntoView({behavior:'smooth',block:'start'})}});
 window.setR20=function(sel,t){S20().querySelectorAll('.cond .chip').forEach(c=>c.classList.toggle('on',sel.includes(c.textContent)));S20().querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.textContent===t));render20()};
 window.r20rm=function(b){const t=b.textContent.replace(' ×','');S20().querySelectorAll('.cond .chip').forEach(c=>{if(c.textContent===t)c.classList.remove('on')});toast(`'${t}' 조건을 뺐어요`)};
 window.r20=function(empty){if(empty)setR20(['5인 이상','한 판 5분 이내','힐링','오프라인 가능'],'전체');else setR20(['3만 원 이하','5인 이상','협동'],'PC')};
