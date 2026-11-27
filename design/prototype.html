@@ -26,9 +26,10 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 .badge-accent{display:inline-block;font-size:12px;font-weight:800;border-radius:6px;padding:2px 8px;background:var(--accent);color:#1d1d1f}
 .box{background:var(--surface);border-radius:var(--radius);padding:20px}
 .topbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;position:sticky;top:0;z-index:5;border-bottom:1.5px solid var(--line);background:#fff}
-.logo{font-size:24px;font-weight:800;color:var(--main);letter-spacing:-.5px;text-decoration:none}
+.logo{display:inline-flex;align-items:center;min-height:44px;font-size:24px;font-weight:800;color:var(--main);letter-spacing:-.5px;text-decoration:none}
 .mascot{width:28px;height:28px;border-radius:50%;background:var(--accent);display:inline-block}
 .pending{color:var(--main-dark);font-weight:800}
+.tag{min-height:44px;padding:0 14px;border-radius:999px;border:none;background:#eee8ff;color:#4a22c9;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.tag:active{transform:scale(.97)}
 .state-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:16px;border-top:1.5px dashed var(--line);background:#faf9ff}
 </style></head><body>
 <button id="idx">화면 목록</button><div id="list"></div>
@@ -39,14 +40,14 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
     <a class="logo" href="#2.0">Gempick</a>
     <a class="btn sm" href="#4.0" style="margin-left:auto">로그인</a>
     <label style="flex:1 1 100%;display:flex;flex-direction:column;gap:2px"><span class="sub">게임 검색</span><input class="input" type="search" placeholder="게임 이름이나 키워드"></label>
-    <div style="flex:1 1 100%;display:flex;gap:8px;overflow-x:auto"><a class="btn-line sm" href="#5.0" style="flex:none">내 기기: PC · 모바일</a><a class="btn-line sm" href="#3.0" style="flex:none"><span class="mascot" aria-hidden="true"></span>마스코트에게 물어보기</a></div>
+    <div style="flex:1 1 100%;display:flex;gap:8px;overflow-x:auto"><a class="btn-line sm" href="#5.0" style="flex:none">내 기기: PC · 모바일</a><a class="btn-line sm" href="#3.0" style="flex:none"><span class="mascot" aria-hidden="true"></span>마스코트에게</a></div>
   </header>
   <div style="padding:20px 16px;display:flex;flex-direction:column;gap:24px">
     <section class="box" style="display:flex;flex-direction:column;gap:20px">
       <div style="display:flex;flex-direction:column;gap:4px"><h1 style="font-size:24px">지금 내 상황은?</h1><span class="sub">조건을 고르면 맞는 게임만 추려 보여드려요</span></div>
       <div style="display:grid;grid-template-columns:1fr;gap:12px">
-        <fieldset class="cond"><legend>비용 · 시간</legend><button class="chip">무과금 가능</button><button class="chip on">1만 원 이하</button><button class="chip">하루 20분 이하</button><button class="chip">한 판 5분 이내</button><button class="chip">출석 부담 없음</button></fieldset>
-        <fieldset class="cond"><legend>광고 · 접속</legend><button class="chip">강제 광고 없음</button><button class="chip">광고 적음</button><button class="chip">오프라인 가능</button><button class="chip">데이터 적게 씀</button></fieldset>
+        <fieldset class="cond"><legend>비용 · 시간</legend><button class="chip">무과금 가능</button><button class="chip on">1만 원 이하</button><button class="chip">하루 20분 이하</button><button class="chip">한 판 5분 이내</button><button class="chip">출석 부담 없음</button><button class="chip">2만 원 이하</button></fieldset>
+        <fieldset class="cond"><legend>광고 · 접속</legend><button class="chip">강제 광고 없음</button><button class="chip">광고 적음</button><button class="chip">오프라인 가능</button><button class="chip">데이터 적게 씀</button><button class="chip">저사양</button></fieldset>
         <fieldset class="cond"><legend>함께 플레이</legend><button class="chip">혼자</button><button class="chip">2인</button><button class="chip">3~4인</button><button class="chip on">5인 이상</button><button class="chip on">협동</button><button class="chip">경쟁</button><button class="chip on">크로스플랫폼</button></fieldset>
         <fieldset class="cond"><legend>취향 · 난이도</legend><button class="chip">귀여운 그래픽</button><button class="chip">힐링</button><button class="chip">어두운 분위기</button><button class="chip">조작 쉬움</button><button class="chip">피지컬 필요</button></fieldset>
       </div>
@@ -58,7 +59,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
         <h2 id="r20-title">조건에 맞는 게임 [N]개</h2>
         <div class="tabs" role="group" aria-label="플랫폼" style="display:grid;grid-template-columns:repeat(4,1fr)"><button class="tab">전체</button><button class="tab">모바일</button><button class="tab on">PC</button><button class="tab">콘솔</button></div>
       </div>
-      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px" class="sub"><span>적용된 조건</span><span class="badge">1만 원 이하 ×</span><span class="badge">5인 이상 ×</span><span class="badge">협동 ×</span><span class="badge">크로스플랫폼 ×</span></div>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px" class="sub"><span>적용된 조건</span><button class="tag" onclick="r20rm(this)">1만 원 이하 ×</button><button class="tag" onclick="r20rm(this)">5인 이상 ×</button><button class="tag" onclick="r20rm(this)">협동 ×</button><button class="tag" onclick="r20rm(this)">크로스플랫폼 ×</button></div>
 
       <div id="r20-list" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
         <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><div><span class="badge">PC</span> <span class="badge">스위치</span></div><h3>게임 이름 B</h3><dl><dt>과금</dt><dd>구매형 [가격]</dd><dt>하루 시간</dt><dd>자유</dd><dt>광고</dt><dd>없음</dd><dt>인원</dt><dd>1~4인</dd></dl></div></a>
@@ -85,6 +86,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
     .cbody{padding:12px;display:flex;flex-direction:column;gap:8px}.cbody dl{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:2px;font-size:12px}.cbody dt{white-space:nowrap}.cbody dt{color:var(--sub)}.cbody dd{margin:0}
   </style>
   <script>
+    function r20rm(b){const t=b.textContent.replace(' ×','');document.getElementById('2.0').querySelectorAll('.chip').forEach(c=>{if(c.textContent===t)c.classList.remove('on')});b.remove();toast("'"+t+"' 조건을 뺐어요")}
     function r20(empty){document.getElementById('r20-list').style.display=empty?'none':'grid';document.getElementById('r20-empty').style.display=empty?'flex':'none';document.getElementById('r20-title').textContent=empty?'조건에 맞는 게임 0개':'조건에 맞는 게임 [N]개'}
   </script>
 </section>
@@ -202,7 +204,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
   <script>
     function c30rm(b){const t=b.textContent.replace(' ×','');b.remove();toast("'"+t+"' 조건을 뺐어요")}
     function c30add(b){const n=document.createElement('button');n.className='chip on';n.textContent='강제 광고 없음 ×';n.onclick=()=>c30rm(n);b.before(n);toast("'강제 광고 없음' 조건을 더했어요")}
-    function c30send(e){e.preventDefault();const i=document.getElementById('c30-msg'),v=i.value.trim();if(!v){toast('메시지를 입력해 주세요');return}const d=document.createElement('div');d.className='bub me';d.textContent=v;document.getElementById('c30-log').append(d);i.value='';toast('보냈어요');d.scrollIntoView({block:'nearest'})}
+    function c30send(e){e.preventDefault();const i=document.getElementById('c30-msg'),v=i.value.trim();if(!v){toast('메시지를 입력해 주세요');return}const d=document.createElement('div');d.className='bub me';d.textContent=v;document.getElementById('c30-log').append(d);i.value='';toast('보냈어요');setTimeout(()=>{const r=document.createElement('div');r.className='bub bot';r.textContent='알겠어요! 말한 내용을 조건에 반영했어요. 아래 "이 조건으로 전체 결과 보기"로 확인해 보세요.';document.getElementById('c30-log').append(r);r.scrollIntoView({block:'nearest'})},600)}
   </script>
 </section>
 <!-- 화면 끝 -->
@@ -215,5 +217,5 @@ document.getElementById("idx").onclick=()=>L.classList.toggle("on");
 function toast(m){T.textContent=m;T.classList.add("on");clearTimeout(T._t);T._t=setTimeout(()=>T.classList.remove("on"),1600)}
 function show(){const id=decodeURIComponent(location.hash.slice(1));const t=S.find(s=>s.id===id)||S[0];if(id&&!S.some(s=>s.id===id))toast("아직 만들지 않은 화면이에요");S.forEach(s=>s.classList.toggle("on",s===t));L.classList.remove("on");window.scrollTo(0,0)}
 addEventListener("hashchange",show);show();
-document.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c)c.classList.toggle("on");const t=e.target.closest(".tab");if(t){t.parentElement.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t))}});
+document.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c&&!c.closest('[id="3.0"]'))c.classList.toggle("on");const t=e.target.closest(".tab");if(t){t.parentElement.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t))}});
 </script></body></html>
