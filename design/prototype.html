@@ -2,9 +2,13 @@
 <title>Gempick 프로토타입</title>
 <style>
 :root{--main:#6c3bff;--main-dark:#5326e0;--accent:#c6ff3d;--bg:#ffffff;--surface:#f5f3ff;--text:#1d1d1f;--sub:#55556a;--line:#e2def5;--radius:16px}
-*{box-sizing:border-box}body{margin:0;background:#eceef1;font-family:system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--text);line-height:1.6}
-.device{width:390px;max-width:100%;min-height:780px;margin:24px auto;background:var(--bg);border-radius:28px;box-shadow:0 8px 30px rgba(0,0,0,.12);overflow:hidden;position:relative}
-.screen{display:none;min-height:780px}.screen.on{display:block}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#ece8fb,#e6e9f0);min-height:100vh;font-family:system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--text);line-height:1.6}
+.device{width:410px;max-width:100%;height:min(864px,calc(100vh - 48px));margin:24px auto;background:var(--bg);border:10px solid #1d1d1f;border-radius:48px;box-shadow:0 20px 50px rgba(40,20,90,.25);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.statusbar{flex:none;height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;font-size:14px;font-weight:700;background:#fff}
+.statusbar i{width:110px;height:28px;border-radius:999px;background:#1d1d1f;display:block}
+.screen{display:none}.screen.on{display:block;flex:1;min-height:0;overflow-y:auto;scrollbar-width:none;position:relative}.screen.on::-webkit-scrollbar{display:none}
+@media (max-width:440px){.device{margin:0;border:none;border-radius:0;height:100vh;width:100%;box-shadow:none}.statusbar{display:none}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 #toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}#toast.on{opacity:1}
 #idx{position:fixed;right:16px;top:16px;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer}
 #list{position:fixed;right:16px;top:56px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;display:none;max-height:70vh;overflow:auto;min-width:200px}#list.on{display:block}#list a{display:block;padding:6px 8px;color:var(--text);text-decoration:none;font-size:14px;border-radius:8px}#list a:hover{background:#f2f2f5}
@@ -16,7 +20,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 .btn:active,.btn-line:active,.chip:active,.tab:active,.card:active{transform:scale(.97)}
 .btn.sm,.btn-line.sm{min-height:44px;padding:0 16px;font-size:14px}
 .input{height:48px;border:1.5px solid var(--line);border-radius:12px;padding:0 16px;font:inherit;font-size:15px;width:100%}.input:focus{outline:none;border-color:var(--main)}
-.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:14px;cursor:pointer;color:var(--text)}
+.chip{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font:inherit;font-size:14px;cursor:pointer;color:var(--text)}
 .chip.on{background:var(--main);border-color:var(--main);color:#fff;font-weight:700}
 .tabs{display:inline-flex;gap:4px;background:var(--surface);border-radius:14px;padding:4px}
 .tab{min-height:44px;min-width:72px;padding:0 16px;border:none;border-radius:10px;background:transparent;font:inherit;font-size:14px;cursor:pointer;color:var(--text)}.tab.on{background:#fff;color:var(--main);font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
@@ -26,26 +30,26 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 .badge-accent{display:inline-block;font-size:12px;font-weight:800;border-radius:6px;padding:2px 8px;background:var(--accent);color:#1d1d1f}
 .box{background:var(--surface);border-radius:var(--radius);padding:20px}
 .topbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;position:sticky;top:0;z-index:5;border-bottom:1.5px solid var(--line);background:#fff}
-.logo{display:inline-flex;align-items:center;min-height:44px;font-size:24px;font-weight:800;color:var(--main);letter-spacing:-.5px;text-decoration:none}
+.logo{display:inline-flex;align-items:center;min-height:44px;font-size:22px;font-weight:800;color:var(--main);letter-spacing:-.5px;text-decoration:none}
 .mascot{width:28px;height:28px;border-radius:50%;background:var(--accent);display:inline-block}
 .pending{color:var(--main-dark);font-weight:800}
 .tag{min-height:44px;padding:0 14px;border-radius:999px;border:none;background:#eee8ff;color:#4a22c9;font:inherit;font-size:13px;font-weight:700;cursor:pointer}.tag:active{transform:scale(.97)}
 .state-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:16px;border-top:1.5px dashed var(--line);background:#faf9ff}
 </style></head><body>
 <button id="idx">화면 목록</button><div id="list"></div>
-<div class="device">
+<div class="device"><div class="statusbar" aria-hidden="true"><span>9:41</span><i></i><span>●●● ▮</span></div>
 <!-- 화면은 여기에 하나씩 추가: <section class="screen" id="1.0" data-name="홈"> ... </section> -->
 <section class="screen" id="2.0" data-name="조건 선택 · 결과">
   <header class="topbar">
     <a class="logo" href="#2.0">Gempick</a>
     <a class="btn sm" href="#4.0" style="margin-left:auto">로그인</a>
-    <label style="flex:1 1 100%;display:flex;flex-direction:column;gap:2px"><span class="sub">게임 검색</span><input class="input" type="search" placeholder="게임 이름이나 키워드"></label>
+    <label style="flex:1 1 100%;display:flex;flex-direction:column;gap:2px"><span class="sr">게임 검색</span><input class="input" type="search" placeholder="🔍  게임 이름이나 키워드" style="height:44px;border-radius:999px;background:var(--surface);border-color:transparent"></label>
     <div style="flex:1 1 100%;display:flex;gap:8px;overflow-x:auto"><a class="btn-line sm" href="#5.0" style="flex:none">내 기기: PC · 모바일</a><a class="btn-line sm" href="#3.0" style="flex:none"><span class="mascot" aria-hidden="true"></span>마스코트에게</a></div>
   </header>
   <div style="padding:20px 16px;display:flex;flex-direction:column;gap:24px">
     <section class="box" style="display:flex;flex-direction:column;gap:20px">
       <div style="display:flex;flex-direction:column;gap:4px"><h1 style="font-size:24px">지금 내 상황은?</h1><span class="sub">조건을 고르면 맞는 게임만 추려 보여드려요</span></div>
-      <div style="display:grid;grid-template-columns:1fr;gap:12px">
+      <div style="display:grid;grid-template-columns:1fr;gap:20px">
         <fieldset class="cond"><legend>비용 · 시간</legend><button class="chip">무과금 가능</button><button class="chip on">1만 원 이하</button><button class="chip">하루 20분 이하</button><button class="chip">한 판 5분 이내</button><button class="chip">출석 부담 없음</button><button class="chip">2만 원 이하</button></fieldset>
         <fieldset class="cond"><legend>광고 · 접속</legend><button class="chip">강제 광고 없음</button><button class="chip">광고 적음</button><button class="chip">오프라인 가능</button><button class="chip">데이터 적게 씀</button><button class="chip">저사양</button></fieldset>
         <fieldset class="cond"><legend>함께 플레이</legend><button class="chip">혼자</button><button class="chip">2인</button><button class="chip">3~4인</button><button class="chip on">5인 이상</button><button class="chip on">협동</button><button class="chip">경쟁</button><button class="chip on">크로스플랫폼</button></fieldset>
@@ -82,7 +86,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
   </div>
   <div class="state-bar"><span class="sub" style="align-self:center">모습 바꿔 보기</span><button class="btn-line sm" onclick="r20(false)">결과 있음</button><button class="btn-line sm" onclick="r20(true)">결과 없음 보기</button></div>
   <style>
-    .cond{margin:0;border:1.5px solid var(--line);border-radius:var(--radius);background:#fff;padding:12px 16px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;align-content:flex-start}.cond legend{font-weight:700;font-size:15px;padding:0 4px}
+    .cond{margin:0;border:none;padding:0;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;align-content:flex-start}.cond legend{font-weight:700;font-size:13px;color:var(--sub);padding:0;margin-bottom:8px}
     .cbody{padding:12px;display:flex;flex-direction:column;gap:8px}.cbody dl{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:2px;font-size:12px}.cbody dt{white-space:nowrap}.cbody dt{color:var(--sub)}.cbody dd{margin:0}
   </style>
   <script>
@@ -167,7 +171,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
   </script>
 </section>
 <section class="screen" id="3.0" data-name="마스코트 챗봇">
-  <div style="display:flex;flex-direction:column;min-height:780px">
+  <div style="display:flex;flex-direction:column;min-height:100%">
     <header class="topbar">
       <span class="mascot" aria-hidden="true" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text)">마스코트</span>
       <div style="display:flex;flex-direction:column;line-height:1.3;flex:1;min-width:0"><strong style="font-size:17px">[마스코트 이름]</strong><span class="sub">상황을 편하게 말하면 조건으로 바꿔 드려요</span></div>
@@ -215,7 +219,7 @@ const S=[...document.querySelectorAll(".screen")],L=document.getElementById("lis
 L.innerHTML=S.map(s=>`<a href="#${s.id}">${s.id} ${s.dataset.name||""}</a>`).join("");
 document.getElementById("idx").onclick=()=>L.classList.toggle("on");
 function toast(m){T.textContent=m;T.classList.add("on");clearTimeout(T._t);T._t=setTimeout(()=>T.classList.remove("on"),1600)}
-function show(){const id=decodeURIComponent(location.hash.slice(1));const t=S.find(s=>s.id===id)||S[0];if(id&&!S.some(s=>s.id===id))toast("아직 만들지 않은 화면이에요");S.forEach(s=>s.classList.toggle("on",s===t));L.classList.remove("on");window.scrollTo(0,0)}
+function show(){const id=decodeURIComponent(location.hash.slice(1));const t=S.find(s=>s.id===id)||S[0];if(id&&!S.some(s=>s.id===id))toast("아직 만들지 않은 화면이에요");S.forEach(s=>s.classList.toggle("on",s===t));L.classList.remove("on");t.scrollTop=0;window.scrollTo(0,0)}
 addEventListener("hashchange",show);show();
 document.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c&&!c.closest('[id="3.0"]'))c.classList.toggle("on");const t=e.target.closest(".tab");if(t){t.parentElement.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t))}});
 </script></body></html>
