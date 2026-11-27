@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Gempick 조건 선택과 결과</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#ffffff}
+a{color:#1a1a1a}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans KR', system-ui, sans-serif; color: #1a1a1a; background: #ffffff; min-height: 100vh">
+  <header style="border-bottom: 1px solid #d0d0d0; background: #ffffff">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
+      <div style="font-size: 24px; font-weight: 700; letter-spacing: -0.5px">Gempick</div>
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 4px">
+        <label for="q" style="font-size: 12px; color: #555555">게임 검색</label>
+        <input id="q" type="search" placeholder="게임 이름이나 키워드" style="height: 44px; box-sizing: border-box; border: 1px solid #a8a8a8; border-radius: 8px; padding: 0 14px; font: inherit; font-size: 15px">
+      </div>
+      <button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #a8a8a8; border-radius: 8px; background: #ffffff; font: inherit; font-size: 14px">내 기기: PC · 모바일</button>
+      <button type="button" style="height: 44px; padding: 0 16px; border: 1px solid #1a1a1a; border-radius: 8px; background: #ffffff; font: inherit; font-size: 14px; display: flex; align-items: center; gap: 8px">
+        <span aria-hidden="true" style="width: 24px; height: 24px; border-radius: 50%; background: #d9d9d9; display: inline-block"></span>
+        마스코트에게 물어보기
+      </button>
+      <button type="button" style="height: 44px; padding: 0 16px; border: none; border-radius: 8px; background: #1a1a1a; color: #ffffff; font: inherit; font-size: 14px">로그인</button>
+    </div>
+  </header>
+
+  <main style="max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; display: flex; flex-direction: column; gap: 28px">
+    <section aria-labelledby="cond-title" style="border: 1px solid #d0d0d0; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 20px; background: #f6f6f6">
+      <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px">
+        <h1 id="cond-title" style="margin: 0; font-size: 24px">지금 내 상황은?</h1>
+        <p style="margin: 0; font-size: 14px; color: #555555">조건을 고르면 맞는 게임만 추려 보여드려요</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+        <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+          <fieldset style="margin: 0; border: 1px solid #d0d0d0; border-radius: 10px; padding: 14px 16px 16px; background: #ffffff; display: flex; flex-direction: column; gap: 10px; min-width: 0">
+            <legend style="font-size: 14px; font-weight: 700; padding: 0 4px">{{g.name}}</legend>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px">
+              <sc-for list="{{g.chips}}" as="c" hint-placeholder-count="4">
+                <button type="button" aria-pressed="{{c.pressed}}" style="{{c.style}}">{{c.label}}</button>
+              </sc-for>
+            </div>
+          </fieldset>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px">
+        <button type="button" style="height: 44px; padding: 0 18px; border: 1px solid #a8a8a8; border-radius: 8px; background: #ffffff; font: inherit; font-size: 14px">조건 초기화</button>
+        <button type="button" style="height: 44px; padding: 0 22px; border: none; border-radius: 8px; background: #1a1a1a; color: #ffffff; font: inherit; font-size: 14px; font-weight: 700">결과 보기</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="res-title" style="display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+        <h2 id="res-title" style="margin: 0; font-size: 20px">조건에 맞는 게임 [N]개</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 4px; border: 1px solid #d0d0d0; border-radius: 10px; padding: 4px">
+          <button type="button" aria-pressed="true" style="height: 40px; min-width: 64px; padding: 0 14px; border: none; border-radius: 7px; background: #1a1a1a; color: #ffffff; font: inherit; font-size: 14px">전체</button>
+          <button type="button" aria-pressed="false" style="height: 40px; min-width: 64px; padding: 0 14px; border: none; border-radius: 7px; background: transparent; font: inherit; font-size: 14px">모바일</button>
+          <button type="button" aria-pressed="false" style="height: 40px; min-width: 64px; padding: 0 14px; border: none; border-radius: 7px; background: transparent; font: inherit; font-size: 14px">PC</button>
+          <button type="button" aria-pressed="false" style="height: 40px; min-width: 64px; padding: 0 14px; border: none; border-radius: 7px; background: transparent; font: inherit; font-size: 14px">콘솔</button>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px; color: #555555">
+        <span>적용된 조건</span>
+        <span style="border: 1px solid #a8a8a8; border-radius: 999px; padding: 4px 10px; color: #1a1a1a">무과금 가능 ×</span>
+        <span style="border: 1px solid #a8a8a8; border-radius: 999px; padding: 4px 10px; color: #1a1a1a">하루 20분 이하 ×</span>
+        <span style="border: 1px solid #a8a8a8; border-radius: 999px; padding: 4px 10px; color: #1a1a1a">강제 광고 없음 ×</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px">
+        <sc-for list="{{cards}}" as="card" hint-placeholder-count="8">
+          <article style="border: 1px solid #d0d0d0; border-radius: 12px; overflow: hidden; background: #ffffff; display: flex; flex-direction: column">
+            <div style="position: relative; aspect-ratio: 16 / 10; background: #e4e4e4; display: flex; align-items: center; justify-content: center; color: #555555; font-size: 13px">
+              게임 아이콘 · 대표 이미지
+              <sc-if value="{{card.promo}}" hint-placeholder-val="{{false}}">
+                <span style="position: absolute; top: 10px; left: 10px; background: #1a1a1a; color: #ffffff; font-size: 12px; font-weight: 700; border-radius: 4px; padding: 3px 8px">홍보</span>
+              </sc-if>
+            </div>
+            <div style="padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px">
+              <div style="display: flex; flex-wrap: wrap; gap: 6px">
+                <sc-for list="{{card.platforms}}" as="p" hint-placeholder-count="2">
+                  <span style="font-size: 12px; border: 1px solid #a8a8a8; border-radius: 4px; padding: 2px 7px; color: #1a1a1a">{{p}}</span>
+                </sc-for>
+              </div>
+              <h3 style="margin: 0; font-size: 17px">{{card.title}}</h3>
+              <dl style="margin: 0; display: grid; grid-template-columns: 72px 1fr; row-gap: 6px; font-size: 13px">
+                <sc-for list="{{card.facts}}" as="f" hint-placeholder-count="4">
+                  <dt style="color: #555555">{{f.k}}</dt>
+                  <dd style="{{f.style}}">{{f.v}}</dd>
+                </sc-for>
+              </dl>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1560}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var on = 'height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #1a1a1a; background: #1a1a1a; color: #ffffff; font: inherit; font-size: 13px';
+    var off = 'height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #a8a8a8; background: #ffffff; color: #1a1a1a; font: inherit; font-size: 13px';
+    function chips(list, selected) {
+      return list.map(function (l) {
+        var p = selected.indexOf(l) !== -1;
+        return { label: l, pressed: p ? 'true' : 'false', style: p ? on : off };
+      });
+    }
+    var groups = [
+      { name: '비용 · 시간', chips: chips(['무과금 가능', '1만 원 이하', '하루 20분 이하', '한 판 5분 이내', '출석 부담 없음'], ['무과금 가능', '하루 20분 이하']) },
+      { name: '광고 · 접속', chips: chips(['강제 광고 없음', '광고 적음', '오프라인 가능', '데이터 적게 씀'], ['강제 광고 없음']) },
+      { name: '함께 플레이', chips: chips(['혼자', '2인', '3~4인', '5인 이상', '협동', '경쟁', '크로스플랫폼'], []) },
+      { name: '취향 · 난이도', chips: chips(['귀여운 그래픽', '힐링', '어두운 분위기', '조작 쉬움', '피지컬 필요'], []) }
+    ];
+    var ok = 'margin: 0; color: #1a1a1a';
+    var pending = 'margin: 0; color: #1a1a1a; font-weight: 700';
+    function facts(a, b, c, d) {
+      return [
+        { k: '과금', v: a, style: a === '확인 중' ? pending : ok },
+        { k: '하루 시간', v: b, style: b === '확인 중' ? pending : ok },
+        { k: '광고', v: c, style: c === '확인 중' ? pending : ok },
+        { k: '인원', v: d, style: d === '확인 중' ? pending : ok }
+      ];
+    }
+    var cards = [
+      { title: '게임 이름 A', platforms: ['모바일'], promo: false, facts: facts('무과금 가능', '약 15분', '강제 광고 없음', '혼자') },
+      { title: '게임 이름 B', platforms: ['PC', '스위치'], promo: false, facts: facts('구매형 [가격]', '자유', '없음', '1~4인') },
+      { title: '게임 이름 C', platforms: ['모바일'], promo: true, facts: facts('무과금 가능', '약 10분', '확인 중', '혼자') },
+      { title: '게임 이름 D', platforms: ['PC'], promo: false, facts: facts('무과금 가능', '약 20분', '없음', '2~5인') },
+      { title: '게임 이름 E', platforms: ['모바일', 'PC'], promo: false, facts: facts('확인 중', '약 15분', '광고 적음', '혼자') },
+      { title: '게임 이름 F', platforms: ['스위치'], promo: false, facts: facts('구매형 [가격]', '자유', '없음', '1~2인') },
+      { title: '게임 이름 G', platforms: ['모바일'], promo: false, facts: facts('무과금 가능', '약 5분', '강제 광고 없음', '혼자') },
+      { title: '게임 이름 H', platforms: ['PC', 'PS'], promo: false, facts: facts('구매형 [가격]', '자유', '없음', '1~4인') }
+    ];
+    return { groups: groups, cards: cards };
+  }
+}
+</script>
+</body>
+</html>

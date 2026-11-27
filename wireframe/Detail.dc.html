@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Gempick 게임 상세</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#ffffff}
+a{color:#1a1a1a}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans KR', system-ui, sans-serif; color: #1a1a1a; background: #ffffff; min-height: 100vh">
+  <header style="border-bottom: 1px solid #d0d0d0">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; align-items: center; gap: 16px">
+      <a href="#" style="font-size: 14px; min-height: 44px; display: inline-flex; align-items: center">← 결과로 돌아가기</a>
+      <div style="font-size: 20px; font-weight: 700; margin-left: auto">Gempick</div>
+    </div>
+  </header>
+
+  <main style="max-width: 1200px; margin: 0 auto; padding: 32px 24px 64px; display: flex; flex-direction: column; gap: 32px">
+    <section style="display: flex; flex-wrap: wrap; gap: 32px">
+      <div style="flex: 1 1 520px; min-width: 0; aspect-ratio: 16 / 9; background: #e4e4e4; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #555555; font-size: 14px">대표 이미지 · 플레이 영상</div>
+      <div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; flex-wrap: wrap; gap: 6px">
+          <span style="font-size: 12px; border: 1px solid #a8a8a8; border-radius: 4px; padding: 2px 7px">PC</span>
+          <span style="font-size: 12px; border: 1px solid #a8a8a8; border-radius: 4px; padding: 2px 7px">스위치</span>
+          <span style="font-size: 12px; border: 1px solid #a8a8a8; border-radius: 4px; padding: 2px 7px">크로스플랫폼</span>
+        </div>
+        <h1 style="margin: 0; font-size: 30px">게임 이름 B</h1>
+        <p style="margin: 0; font-size: 15px; color: #555555">[한두 줄 게임 소개]</p>
+        <div style="border: 1px solid #d0d0d0; border-radius: 10px; padding: 14px 16px; background: #f6f6f6; display: flex; flex-direction: column; gap: 6px">
+          <span style="font-size: 13px; font-weight: 700">추천 이유</span>
+          <span style="font-size: 14px">고른 조건 '1~4인', '강제 광고 없음', '조작 쉬움'과 맞아요.</span>
+          <span style="font-size: 13px; color: #555555">2단계 개인화: 싫어하는 요소 '과도한 노가다'가 없어요.</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <span style="font-size: 13px; color: #555555">스토어에서 보기</span>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <a href="#" style="min-height: 48px; padding: 0 20px; border-radius: 8px; background: #1a1a1a; color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; font-size: 15px; font-weight: 700">스팀 · [가격]</a>
+            <a href="#" style="min-height: 48px; padding: 0 20px; border-radius: 8px; border: 1px solid #1a1a1a; text-decoration: none; display: inline-flex; align-items: center; font-size: 15px">닌텐도 e숍 · [가격]</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="facts-title" style="display: flex; flex-direction: column; gap: 14px">
+      <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px">
+        <h2 id="facts-title" style="margin: 0; font-size: 20px">한눈에 보는 조건</h2>
+        <span style="font-size: 13px; color: #555555">자동 추정 = 스토어 정보·리뷰 분석 / 이용자 확인 = 해본 사람이 맞다고 확인</span>
+      </div>
+      <div style="border: 1px solid #d0d0d0; border-radius: 12px; overflow-x: auto">
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 640px">
+          <thead>
+            <tr style="background: #f6f6f6; text-align: left">
+              <th scope="col" style="padding: 12px 16px; font-weight: 700">조건</th>
+              <th scope="col" style="padding: 12px 16px; font-weight: 700">내용</th>
+              <th scope="col" style="padding: 12px 16px; font-weight: 700">출처</th>
+              <th scope="col" style="padding: 12px 16px; font-weight: 700"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">보정</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <sc-for list="{{rows}}" as="r" hint-placeholder-count="7">
+              <tr style="border-top: 1px solid #d0d0d0">
+                <th scope="row" style="padding: 12px 16px; text-align: left; font-weight: 500; color: #555555; white-space: nowrap">{{r.k}}</th>
+                <td style="{{r.vStyle}}">{{r.v}}</td>
+                <td style="padding: 12px 16px; color: #555555; white-space: nowrap">{{r.src}}</td>
+                <td style="padding: 8px 16px; text-align: right">
+                  <sc-if value="{{r.pending}}" hint-placeholder-val="{{false}}">
+                    <button type="button" style="min-height: 40px; padding: 0 14px; border: 1px solid #1a1a1a; border-radius: 8px; background: #ffffff; font: inherit; font-size: 13px; font-weight: 700">해봤다면 알려주세요</button>
+                  </sc-if>
+                </td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="fix-title" style="border: 1px dashed #a8a8a8; border-radius: 12px; padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <h2 id="fix-title" style="margin: 0; font-size: 17px">이 정보가 실제와 맞나요?</h2>
+        <p style="margin: 0; font-size: 14px; color: #555555">해본 사람의 확인이 다음 사람의 선택을 돕습니다.</p>
+      </div>
+      <div style="display: flex; gap: 10px">
+        <button type="button" style="height: 44px; padding: 0 20px; border: 1px solid #a8a8a8; border-radius: 8px; background: #ffffff; font: inherit; font-size: 14px">맞아요</button>
+        <button type="button" style="height: 44px; padding: 0 20px; border: 1px solid #a8a8a8; border-radius: 8px; background: #ffffff; font: inherit; font-size: 14px">달라요 · 고치기</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="sim-title" style="display: flex; flex-direction: column; gap: 14px">
+      <h2 id="sim-title" style="margin: 0; font-size: 20px">비슷한 조건의 게임</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px">
+        <sc-for list="{{similar}}" as="s" hint-placeholder-count="4">
+          <div style="border: 1px solid #d0d0d0; border-radius: 10px; overflow: hidden">
+            <div style="aspect-ratio: 16 / 10; background: #e4e4e4"></div>
+            <div style="padding: 10px 12px; font-size: 14px; font-weight: 700">{{s}}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var base = 'padding: 12px 16px';
+    var bold = 'padding: 12px 16px; font-weight: 700';
+    var rows = [
+      { k: '과금', v: '구매형 [가격], 추가 결제 없음', src: '이용자 확인 [N]명', pending: false },
+      { k: '하루 플레이 시간', v: '자유 (출석 · 숙제 없음)', src: '자동 추정', pending: false },
+      { k: '한 판 시간', v: '약 20~30분', src: '자동 추정', pending: false },
+      { k: '플레이 중 광고', v: '없음', src: '이용자 확인 [N]명', pending: false },
+      { k: '오프라인 플레이', v: '확인 중', src: '정보 없음', pending: true },
+      { k: '최대 인원', v: '1~4인 · 온라인 협동', src: '스토어 정보', pending: false },
+      { k: '권장 사양', v: '확인 중', src: '정보 없음', pending: true },
+      { k: '조작 난이도', v: '쉬움 (피지컬 부담 적음)', src: '자동 추정', pending: false }
+    ].map(function (r) { return Object.assign({}, r, { vStyle: r.pending ? bold : base }); });
+    return { rows: rows, similar: ['게임 이름 D', '게임 이름 F', '게임 이름 H', '게임 이름 I'] };
+  }
+}
+</script>
+</body>
+</html>

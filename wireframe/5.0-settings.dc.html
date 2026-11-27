@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Gempick 설정 내 기기 수정</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#f6f6f6}
+a{color:#1a1a1a}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans KR', system-ui, sans-serif; color: #1a1a1a; background: #f6f6f6; min-height: 100vh; padding: 48px 24px; box-sizing: border-box">
+  <div style="max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px">
+    <div style="font-size: 24px; font-weight: 700">Gempick</div>
+
+    <section aria-labelledby="set-title" style="background: #ffffff; border: 1px solid #d0d0d0; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <h1 id="set-title" style="margin: 0; font-size: 26px">내 기기 설정</h1>
+        <p style="margin: 0; font-size: 15px">지금 설정: <strong>PC · 모바일</strong></p>
+      </div>
+
+      <fieldset style="margin: 0; padding: 0; border: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px">
+        <legend style="font-size: 14px; font-weight: 700; margin-bottom: 12px">보유 기기 (여러 개 선택 가능)</legend>
+        <sc-for list="{{devices}}" as="d" hint-placeholder-count="3">
+          <label style="{{d.style}}">
+            <span style="display: flex; align-items: center; gap: 10px">
+              <input type="checkbox" checked="{{d.checked}}" style="width: 20px; height: 20px; margin: 0">
+              <span style="font-size: 18px; font-weight: 700">{{d.name}}</span>
+            </span>
+            <span style="font-size: 13px; color: #555555">{{d.sub}}</span>
+          </label>
+        </sc-for>
+      </fieldset>
+
+      <div role="alert" style="border: 1px solid #1a1a1a; border-radius: 10px; padding: 12px 16px; font-size: 14px">
+        <strong>[아무 기기도 고르지 않았을 때만 표시]</strong> 기기를 하나 이상 골라 주세요. (저장 버튼 비활성)
+      </div>
+
+      <div style="border-top: 1px solid #d0d0d0; padding-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+        <button type="button" style="height: 48px; padding: 0 18px; border: 1px solid #a8a8a8; border-radius: 8px; background: #ffffff; font: inherit; font-size: 15px">기기 선택 초기화 (전체 보기)</button>
+        <div style="display: flex; gap: 12px">
+          <button type="button" style="height: 48px; padding: 0 20px; border: 1px solid #a8a8a8; border-radius: 8px; background: #ffffff; font: inherit; font-size: 15px">취소</button>
+          <button type="button" style="height: 48px; padding: 0 24px; border: none; border-radius: 8px; background: #1a1a1a; color: #ffffff; font: inherit; font-size: 15px; font-weight: 700">저장하고 결과 보기</button>
+        </div>
+      </div>
+      <p style="margin: 0; font-size: 13px; color: #555555">저장 · 취소 · 초기화 모두 2.0 조건 선택 · 결과로 이동</p>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var on = 'border: 2px solid #1a1a1a; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px; cursor: pointer; background: #ffffff';
+    var off = 'border: 1px solid #a8a8a8; border-radius: 12px; padding: 17px; display: flex; flex-direction: column; gap: 10px; cursor: pointer; background: #ffffff';
+    var devices = [
+      { name: '모바일', sub: 'iOS · Android', checked: true },
+      { name: 'PC', sub: 'Steam · 에픽 · PC방', checked: true },
+      { name: '콘솔', sub: '스위치 · PS · Xbox', checked: false }
+    ].map(function (d) { return Object.assign({}, d, { style: d.checked ? on : off }); });
+    return { devices: devices };
+  }
+}
+</script>
+</body>
+</html>

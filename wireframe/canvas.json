@@ -1,0 +1,82 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Chat.dc.html": {
+      "expand": "fill",
+      "h": 960,
+      "title": "04 마스코트 챗봇",
+      "w": 1280,
+      "x": 4080,
+      "y": 0
+    },
+    "Detail.dc.html": {
+      "expand": "fill",
+      "h": 1400,
+      "title": "03 게임 상세",
+      "w": 1280,
+      "x": 2720,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "expand": "fill",
+      "h": 1560,
+      "title": "02 조건 선택 · 결과",
+      "w": 1280,
+      "x": 1360,
+      "y": 0
+    },
+    "Onboarding.dc.html": {
+      "expand": "fill",
+      "h": 820,
+      "title": "01 가입 · 내 기기 설정",
+      "w": 1280,
+      "x": 15,
+      "y": 0
+    },
+    "4.0-login.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "05 로그인 (선택형)",
+      "w": 1280,
+      "x": 5440,
+      "y": 0
+    },
+    "5.0-settings.dc.html": {
+      "expand": "fill",
+      "h": 820,
+      "title": "06 설정 (내 기기 수정)",
+      "w": 1280,
+      "x": 6800,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-11-13T12:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "flowTitle": {
+      "kind": "title1",
+      "maxW": 8080,
+      "text": "Gempick 반응형 웹 · 주요 화면 흐름",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Onboarding.dc.html",
+    "Detail.dc.html",
+    "Chat.dc.html",
+    "4.0-login.dc.html",
+    "5.0-settings.dc.html"
+  ],
+  "pages": [],
+  "title": "Gempick 와이어프레임"
+}

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>Gempick 마스코트 챗봇</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#f6f6f6}
+a{color:#1a1a1a}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="font-family: 'Noto Sans KR', system-ui, sans-serif; color: #1a1a1a; background: #f6f6f6; min-height: 100vh; padding: 32px 24px; box-sizing: border-box">
+  <div style="max-width: 820px; margin: 0 auto; background: #ffffff; border: 1px solid #d0d0d0; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden">
+    <header style="padding: 16px 20px; border-bottom: 1px solid #d0d0d0; display: flex; align-items: center; gap: 12px">
+      <div aria-hidden="true" style="width: 48px; height: 48px; border-radius: 50%; background: #d9d9d9; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #555555">마스코트</div>
+      <div style="display: flex; flex-direction: column">
+        <span style="font-size: 17px; font-weight: 700">[마스코트 이름]</span>
+        <span style="font-size: 13px; color: #555555">상황을 편하게 말하면 조건으로 바꿔 드려요</span>
+      </div>
+      <button type="button" aria-label="챗봇 닫기" style="margin-left: auto; width: 44px; height: 44px; border: 1px solid #d0d0d0; border-radius: 8px; background: #ffffff; font: inherit; font-size: 18px">×</button>
+    </header>
+
+    <div style="padding: 24px 20px; display: flex; flex-direction: column; gap: 16px">
+      <div style="align-self: flex-start; max-width: 80%; background: #f0f0f0; border-radius: 14px 14px 14px 4px; padding: 12px 16px; font-size: 15px">오늘은 어떤 게임 찾아요? 누구랑, 어디서, 얼마나 할지 말해 주세요.</div>
+      <div style="align-self: flex-end; max-width: 80%; background: #1a1a1a; color: #ffffff; border-radius: 14px 14px 4px 14px; padding: 12px 16px; font-size: 15px">친구 다섯 명이랑 PC로 같이 할 거 찾는데, 다들 사양이 달라서 무거운 건 안 돼. 너무 비싸도 곤란해.</div>
+      <div style="align-self: flex-start; max-width: 88%; background: #f0f0f0; border-radius: 14px 14px 14px 4px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px">
+        <span style="font-size: 15px">이렇게 조건을 잡았어요. 빼거나 더할 게 있으면 눌러서 바꿔 주세요.</span>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{conds}}" as="c" hint-placeholder-count="5">
+            <button type="button" style="height: 36px; padding: 0 12px; border: 1px solid #1a1a1a; border-radius: 999px; background: #ffffff; font: inherit; font-size: 13px">{{c}} ×</button>
+          </sc-for>
+          <button type="button" style="height: 36px; padding: 0 12px; border: 1px dashed #555555; border-radius: 999px; background: transparent; font: inherit; font-size: 13px">+ 조건 추가</button>
+        </div>
+        <span style="font-size: 15px">조건에 맞는 게임 중 세 개를 골랐어요.</span>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px">
+          <sc-for list="{{picks}}" as="p" hint-placeholder-count="3">
+            <div style="background: #ffffff; border: 1px solid #d0d0d0; border-radius: 10px; overflow: hidden">
+              <div style="aspect-ratio: 16 / 10; background: #e4e4e4"></div>
+              <div style="padding: 10px 12px; display: flex; flex-direction: column; gap: 4px">
+                <span style="font-size: 14px; font-weight: 700">{{p.t}}</span>
+                <span style="font-size: 12px; color: #555555">{{p.d}}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <a href="#" style="align-self: flex-start; min-height: 44px; padding: 0 16px; border-radius: 8px; background: #1a1a1a; color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; font-size: 14px; font-weight: 700">이 조건으로 전체 결과 보기</a>
+      </div>
+    </div>
+
+    <form style="border-top: 1px solid #d0d0d0; padding: 14px 20px; display: flex; gap: 10px; align-items: flex-end">
+      <div style="flex: 1; display: flex; flex-direction: column; gap: 4px">
+        <label for="msg" style="font-size: 12px; color: #555555">메시지</label>
+        <input id="msg" type="text" placeholder="예: 지하철에서 20분, 광고 없는 거" style="height: 44px; box-sizing: border-box; border: 1px solid #a8a8a8; border-radius: 8px; padding: 0 14px; font: inherit; font-size: 15px">
+      </div>
+      <button type="button" style="height: 44px; padding: 0 20px; border: none; border-radius: 8px; background: #1a1a1a; color: #ffffff; font: inherit; font-size: 14px; font-weight: 700">보내기</button>
+    </form>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":960}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      conds: ['5인 이상', 'PC', '저사양', '협동', '2만 원 이하'],
+      picks: [
+        { t: '게임 이름 D', d: '2~5인 · 저사양 · [가격]' },
+        { t: '게임 이름 J', d: '최대 8인 · 저사양 · [가격]' },
+        { t: '게임 이름 K', d: '4~6인 · 무료 · 크로스플랫폼' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
