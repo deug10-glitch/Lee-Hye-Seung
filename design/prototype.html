@@ -3,8 +3,8 @@
 <style>
 :root{--main:#6c3bff;--main-dark:#5326e0;--accent:#c6ff3d;--bg:#ffffff;--surface:#f5f3ff;--text:#1d1d1f;--sub:#55556a;--line:#e2def5;--radius:16px}
 *{box-sizing:border-box}body{margin:0;background:#eceef1;font-family:system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--text);line-height:1.6}
-.device{width:1200px;max-width:100%;min-height:720px;margin:24px auto;background:var(--bg);border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.12);overflow:hidden;position:relative}
-.screen{display:none;min-height:720px}.screen.on{display:block}
+.device{width:390px;max-width:100%;min-height:780px;margin:24px auto;background:var(--bg);border-radius:28px;box-shadow:0 8px 30px rgba(0,0,0,.12);overflow:hidden;position:relative}
+.screen{display:none;min-height:780px}.screen.on{display:block}
 #toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;opacity:0;transition:.2s;pointer-events:none}#toast.on{opacity:1}
 #idx{position:fixed;right:16px;top:16px;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer}
 #list{position:fixed;right:16px;top:56px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px;display:none;max-height:70vh;overflow:auto;min-width:200px}#list.on{display:block}#list a{display:block;padding:6px 8px;color:var(--text);text-decoration:none;font-size:14px;border-radius:8px}#list a:hover{background:#f2f2f5}
@@ -25,11 +25,11 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 .badge{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px;background:#eee8ff;color:#4a22c9}
 .badge-accent{display:inline-block;font-size:12px;font-weight:800;border-radius:6px;padding:2px 8px;background:var(--accent);color:#1d1d1f}
 .box{background:var(--surface);border-radius:var(--radius);padding:20px}
-.topbar{display:flex;align-items:center;gap:16px;padding:16px 32px;border-bottom:1.5px solid var(--line);background:#fff}
+.topbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 16px;position:sticky;top:0;z-index:5;border-bottom:1.5px solid var(--line);background:#fff}
 .logo{font-size:24px;font-weight:800;color:var(--main);letter-spacing:-.5px;text-decoration:none}
 .mascot{width:28px;height:28px;border-radius:50%;background:var(--accent);display:inline-block}
 .pending{color:var(--main-dark);font-weight:800}
-.state-bar{display:flex;gap:8px;justify-content:center;padding:16px;border-top:1.5px dashed var(--line);background:#faf9ff}
+.state-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:16px;border-top:1.5px dashed var(--line);background:#faf9ff}
 </style></head><body>
 <button id="idx">화면 목록</button><div id="list"></div>
 <div class="device">
@@ -37,31 +37,30 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 <section class="screen" id="2.0" data-name="조건 선택 · 결과">
   <header class="topbar">
     <a class="logo" href="#2.0">Gempick</a>
-    <label style="flex:1;display:flex;flex-direction:column;gap:2px"><span class="sub">게임 검색</span><input class="input" type="search" placeholder="게임 이름이나 키워드"></label>
-    <a class="btn-line sm" href="#5.0">내 기기: PC · 모바일</a>
-    <a class="btn-line sm" href="#3.0"><span class="mascot" aria-hidden="true"></span>마스코트에게 물어보기</a>
-    <a class="btn sm" href="#4.0">로그인</a>
+    <a class="btn sm" href="#4.0" style="margin-left:auto">로그인</a>
+    <label style="flex:1 1 100%;display:flex;flex-direction:column;gap:2px"><span class="sub">게임 검색</span><input class="input" type="search" placeholder="게임 이름이나 키워드"></label>
+    <div style="flex:1 1 100%;display:flex;gap:8px;overflow-x:auto"><a class="btn-line sm" href="#5.0" style="flex:none">내 기기: PC · 모바일</a><a class="btn-line sm" href="#3.0" style="flex:none"><span class="mascot" aria-hidden="true"></span>마스코트에게 물어보기</a></div>
   </header>
-  <div style="padding:32px;display:flex;flex-direction:column;gap:28px">
+  <div style="padding:20px 16px;display:flex;flex-direction:column;gap:24px">
     <section class="box" style="display:flex;flex-direction:column;gap:20px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px"><h1>지금 내 상황은?</h1><span class="sub">조건을 고르면 맞는 게임만 추려 보여드려요</span></div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+      <div style="display:flex;flex-direction:column;gap:4px"><h1 style="font-size:24px">지금 내 상황은?</h1><span class="sub">조건을 고르면 맞는 게임만 추려 보여드려요</span></div>
+      <div style="display:grid;grid-template-columns:1fr;gap:12px">
         <fieldset class="cond"><legend>비용 · 시간</legend><button class="chip">무과금 가능</button><button class="chip on">1만 원 이하</button><button class="chip">하루 20분 이하</button><button class="chip">한 판 5분 이내</button><button class="chip">출석 부담 없음</button></fieldset>
         <fieldset class="cond"><legend>광고 · 접속</legend><button class="chip">강제 광고 없음</button><button class="chip">광고 적음</button><button class="chip">오프라인 가능</button><button class="chip">데이터 적게 씀</button></fieldset>
         <fieldset class="cond"><legend>함께 플레이</legend><button class="chip">혼자</button><button class="chip">2인</button><button class="chip">3~4인</button><button class="chip on">5인 이상</button><button class="chip on">협동</button><button class="chip">경쟁</button><button class="chip on">크로스플랫폼</button></fieldset>
         <fieldset class="cond"><legend>취향 · 난이도</legend><button class="chip">귀여운 그래픽</button><button class="chip">힐링</button><button class="chip">어두운 분위기</button><button class="chip">조작 쉬움</button><button class="chip">피지컬 필요</button></fieldset>
       </div>
-      <div style="display:flex;justify-content:flex-end;gap:12px"><button class="btn-line" onclick="document.getElementById('2.0').querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));toast('조건을 초기화했어요')">조건 초기화</button><button class="btn" onclick="toast('결과를 새로 불러왔어요')">결과 보기</button></div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:8px"><button class="btn-line" style="white-space:nowrap" onclick="document.getElementById('2.0').querySelectorAll('.chip.on').forEach(c=>c.classList.remove('on'));toast('조건을 초기화했어요')">조건 초기화</button><button class="btn" onclick="toast('결과를 새로 불러왔어요')">결과 보기</button></div>
     </section>
 
     <section style="display:flex;flex-direction:column;gap:16px">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div style="display:flex;flex-direction:column;gap:12px">
         <h2 id="r20-title">조건에 맞는 게임 [N]개</h2>
-        <div class="tabs" role="group" aria-label="플랫폼"><button class="tab">전체</button><button class="tab">모바일</button><button class="tab on">PC</button><button class="tab">콘솔</button></div>
+        <div class="tabs" role="group" aria-label="플랫폼" style="display:grid;grid-template-columns:repeat(4,1fr)"><button class="tab">전체</button><button class="tab">모바일</button><button class="tab on">PC</button><button class="tab">콘솔</button></div>
       </div>
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px" class="sub"><span>적용된 조건</span><span class="badge">1만 원 이하 ×</span><span class="badge">5인 이상 ×</span><span class="badge">협동 ×</span><span class="badge">크로스플랫폼 ×</span></div>
 
-      <div id="r20-list" style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div id="r20-list" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
         <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><div><span class="badge">PC</span> <span class="badge">스위치</span></div><h3>게임 이름 B</h3><dl><dt>과금</dt><dd>구매형 [가격]</dd><dt>하루 시간</dt><dd>자유</dd><dt>광고</dt><dd>없음</dd><dt>인원</dt><dd>1~4인</dd></dl></div></a>
         <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><div><span class="badge">PC</span></div><h3>게임 이름 D</h3><dl><dt>과금</dt><dd>무과금 가능</dd><dt>하루 시간</dt><dd>약 20분</dd><dt>광고</dt><dd>없음</dd><dt>인원</dt><dd>2~5인</dd></dl></div></a>
         <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10;position:relative">게임 아이콘 · 대표 이미지<span class="badge-accent" style="position:absolute;top:10px;left:10px">홍보</span></div><div class="cbody"><div><span class="badge">PC</span></div><h3>게임 이름 C</h3><dl><dt>과금</dt><dd>무과금 가능</dd><dt>하루 시간</dt><dd>약 10분</dd><dt>광고</dt><dd class="pending">확인 중</dd><dt>인원</dt><dd>최대 6인</dd></dl></div></a>
@@ -69,11 +68,11 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
       </div>
 
       <div id="r20-empty" style="display:none;flex-direction:column;gap:16px">
-        <div class="box" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+        <div class="box" style="display:flex;flex-direction:column;align-items:stretch;gap:12px">
           <div><h3>조건에 딱 맞는 게임이 없어요</h3><p class="sub" style="margin:4px 0 0">조건을 버리지 않아도 돼요. 고른 조건 중 일부를 만족하고 매칭이 잘 되는 게임을 골랐어요.</p></div>
           <a class="btn-line sm" href="#3.0"><span class="mascot" aria-hidden="true"></span>마스코트에게 물어보기</a>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
           <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><span class="badge" style="align-self:flex-start">조건 3/4 일치 · 매칭 원활</span><h3>게임 이름 J</h3><p class="sub" style="margin:0">맞지 않는 조건: 1만 원 이하</p></div></a>
           <a class="card" href="#2.1"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><span class="badge" style="align-self:flex-start">조건 3/4 일치 · 매칭 원활</span><h3>게임 이름 K</h3><p class="sub" style="margin:0">맞지 않는 조건: 크로스플랫폼</p></div></a>
         </div>
@@ -83,7 +82,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
   <div class="state-bar"><span class="sub" style="align-self:center">모습 바꿔 보기</span><button class="btn-line sm" onclick="r20(false)">결과 있음</button><button class="btn-line sm" onclick="r20(true)">결과 없음 보기</button></div>
   <style>
     .cond{margin:0;border:1.5px solid var(--line);border-radius:var(--radius);background:#fff;padding:12px 16px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;align-content:flex-start}.cond legend{font-weight:700;font-size:15px;padding:0 4px}
-    .cbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}.cbody dl{margin:0;display:grid;grid-template-columns:64px 1fr;row-gap:4px;font-size:13px}.cbody dt{color:var(--sub)}.cbody dd{margin:0}
+    .cbody{padding:12px;display:flex;flex-direction:column;gap:8px}.cbody dl{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:8px;row-gap:2px;font-size:12px}.cbody dt{white-space:nowrap}.cbody dt{color:var(--sub)}.cbody dd{margin:0}
   </style>
   <script>
     function r20(empty){document.getElementById('r20-list').style.display=empty?'none':'grid';document.getElementById('r20-empty').style.display=empty?'flex':'none';document.getElementById('r20-title').textContent=empty?'조건에 맞는 게임 0개':'조건에 맞는 게임 [N]개'}
@@ -94,10 +93,10 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
     <a class="btn-line sm" href="#2.0">← 결과로 돌아가기</a>
     <a class="logo" href="#2.0" style="margin-left:auto">Gempick</a>
   </header>
-  <div style="padding:32px;display:flex;flex-direction:column;gap:32px">
-    <section style="display:flex;gap:32px">
-      <div class="ph" style="flex:1 1 560px;aspect-ratio:16/9;border-radius:var(--radius);font-size:14px">대표 이미지 · 플레이 영상</div>
-      <div style="flex:1 1 360px;display:flex;flex-direction:column;gap:14px">
+  <div style="padding:20px 16px;display:flex;flex-direction:column;gap:28px">
+    <section style="display:flex;flex-direction:column;gap:16px">
+      <div class="ph" style="aspect-ratio:16/9;border-radius:var(--radius);font-size:14px">대표 이미지 · 플레이 영상</div>
+      <div style="display:flex;flex-direction:column;gap:14px">
         <div style="display:flex;flex-wrap:wrap;gap:6px"><span class="badge">PC</span><span class="badge">스위치</span><span class="badge">크로스플랫폼</span></div>
         <h1>게임 이름 B</h1>
         <p class="sub" style="font-size:15px;margin:0">[한두 줄 게임 소개]</p>
@@ -117,7 +116,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
     </section>
 
     <section style="display:flex;flex-direction:column;gap:14px">
-      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+      <div style="display:flex;flex-direction:column;gap:4px">
         <h2>한눈에 보는 조건</h2>
         <span class="sub">자동 추정 = 스토어 정보·리뷰 분석 / 이용자 확인 = 해본 사람이 맞다고 확인</span>
       </div>
@@ -138,14 +137,14 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
       </div>
     </section>
 
-    <section class="box" style="display:flex;align-items:center;justify-content:space-between;gap:16px;border:1.5px dashed #b9a6ff">
+    <section class="box" style="display:flex;flex-direction:column;gap:12px;border:1.5px dashed #b9a6ff">
       <div><h3>이 정보가 실제와 맞나요?</h3><p class="sub" style="margin:4px 0 0;font-size:14px">해본 사람의 확인이 다음 사람의 선택을 돕습니다.</p></div>
-      <div style="display:flex;gap:10px"><button class="btn-line sm" onclick="toast('확인해 주셔서 고마워요')">맞아요</button><button class="btn-line sm" onclick="toast('고칠 내용을 받았어요. 검토 후 반영할게요')">달라요 · 고치기</button></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="btn-line sm" onclick="toast('확인해 주셔서 고마워요')">맞아요</button><button class="btn-line sm" onclick="toast('고칠 내용을 받았어요. 검토 후 반영할게요')">달라요 · 고치기</button></div>
     </section>
 
     <section style="display:flex;flex-direction:column;gap:14px">
       <h2>비슷한 조건의 게임</h2>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
         <a class="card" href="#2.1" onclick="toast('게임 이름 D 상세로 이동했어요')"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><h3>게임 이름 D</h3></div></a>
         <a class="card" href="#2.1" onclick="toast('게임 이름 F 상세로 이동했어요')"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><h3>게임 이름 F</h3></div></a>
         <a class="card" href="#2.1" onclick="toast('게임 이름 H 상세로 이동했어요')"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><h3>게임 이름 H</h3></div></a>
@@ -156,7 +155,9 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
   <div class="state-bar"><span class="sub" style="align-self:center">모습 바꿔 보기</span><button class="btn-line sm" onclick="r21spec(true)">권장 사양 확인 중</button><button class="btn-line sm" onclick="r21spec(false)">권장 사양 확인됨</button></div>
   <style>
     .facts{width:100%;border-collapse:collapse;font-size:14px}.facts th,.facts td{padding:12px 16px;text-align:left}.facts tbody tr{border-top:1.5px solid var(--line)}
-    .facts thead tr{background:var(--surface)}.facts tbody th{font-weight:500;color:var(--sub);white-space:nowrap}.facts td:last-child{text-align:right;padding:6px 16px}
+    .facts thead{display:none}.facts tbody tr{display:grid;grid-template-columns:1fr auto;column-gap:8px;padding:12px 16px}.facts tbody tr:first-child{border-top:none}
+    .facts tbody th,.facts td{padding:0;grid-column:1}.facts tbody th{font-weight:500;color:var(--sub);font-size:13px}.facts td:first-of-type{font-size:15px;font-weight:500}.facts td.sub{font-size:12px}
+    .facts td:last-child{grid-column:2;grid-row:1/span 3;align-self:center}.facts td:last-child:empty{display:none}.facts td:last-child .btn-line{padding:0 12px;font-size:13px}
   </style>
   <script>
     function r21fix(b,spec){b.textContent='보정 요청 보냄 ✓';b.disabled=true;toast('보정 요청을 남겼어요');if(spec)setTimeout(()=>{location.hash='#2.0'},1200)}
