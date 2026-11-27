@@ -60,6 +60,60 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 <button id="idx">화면 목록</button><div id="list"></div>
 <div class="device"><div class="statusbar" aria-hidden="true"><span>9:41</span><i></i><span>●●● ▮</span></div>
 <!-- 화면은 여기에 하나씩 추가: <section class="screen" id="1.0" data-name="홈"> ... </section> -->
+<section class="screen" id="4.0" data-name="로그인 (선택형)">
+  <div style="padding:20px 16px 28px;display:flex;flex-direction:column;gap:20px;min-height:100%">
+    <div style="display:flex;align-items:center;justify-content:space-between"><span class="logo">Gempick</span><a class="btn-line sm" href="#2.0" aria-label="닫고 홈으로" style="width:44px;padding:0;font-size:20px" onclick="toast('게스트로 둘러볼게요')">×</a></div>
+    <div id="r40-err" role="alert" class="box" style="display:none;border:1.5px solid #ffb3c0;background:#fff4f6;font-size:14px"><strong>로그인하지 못했어요.</strong> 다시 시도하거나 게스트로 계속할 수 있어요.</div>
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding-top:8px">
+      <img data-m="greeting" alt="" style="width:120px;height:120px;object-fit:contain">
+      <h1 style="font-size:24px">로그인하지 않아도 쓸 수 있어요</h1>
+      <p class="sub" style="font-size:15px;margin:0">간편 로그인이나 게스트로 시작하세요.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span class="sub">간편 로그인</span>
+      <button class="btn" style="background:#fee500;color:#191600" onclick="r40go('카카오')">카카오로 계속하기</button>
+      <button class="btn-line" onclick="r40go('Google')">Google로 계속하기</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <button class="btn-line" style="border-style:dashed" onclick="r40go(null)">게스트로 계속하기</button>
+      <p class="sub" style="margin:0">게스트는 다음에 다시 와도 기기 설정 등 정보를 기억하지 못해요.</p>
+    </div>
+    <div class="box" style="display:flex;flex-direction:column;gap:4px"><strong style="font-size:14px">로그인하면 좋은 점</strong><span class="sub" style="font-size:14px">내 기기 설정 기억 · 고른 조건 저장 · 맞춤 추천</span></div>
+  </div>
+  <div class="state-bar"><span class="sub" style="align-self:center">모습 바꿔 보기</span><button class="btn-line sm" onclick="document.getElementById('r40-err').style.display='none'">기본</button><button class="btn-line sm" onclick="document.getElementById('r40-err').style.display='block'">로그인 실패 보기</button></div>
+  <script>function r40go(m){document.getElementById('r40-err').style.display='none';toast(m?m+' 계정으로 로그인했어요':'게스트로 시작해요');location.hash='#1.0'}</script>
+</section>
+<section class="screen" id="1.0" data-name="가입 · 내 기기 설정">
+  <div style="padding:20px 16px 28px;display:flex;flex-direction:column;gap:20px">
+    <div style="display:flex;align-items:center;justify-content:space-between"><span class="logo">Gempick</span><span class="badge">가입 2 / 2단계</span></div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <img data-m="thinking" alt="" style="width:84px;height:84px;object-fit:contain;flex:none">
+      <div style="display:flex;flex-direction:column;gap:4px"><h1 style="font-size:22px">어떤 기기로 게임하세요?</h1><p class="sub" style="font-size:14px;margin:0">선택사항이에요. 고른 기기 기준으로 결과를 좁혀 드리고, 설정에서 언제든 바꿀 수 있어요.</p></div>
+    </div>
+    <fieldset class="fdev" style="margin:0;padding:0;border:none;min-width:0"><legend style="font-size:13px;color:var(--sub);font-weight:700;margin-bottom:10px">보유 기기 (여러 개 선택 가능)</legend>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button class="chip devc on" data-d="모바일"><span class="dvi">📱</span><span style="display:flex;flex-direction:column;align-items:flex-start"><b>모바일</b><span class="sub">iOS · Android</span></span></button>
+        <button class="chip devc on" data-d="PC"><span class="dvi">🖥️</span><span style="display:flex;flex-direction:column;align-items:flex-start"><b>PC</b><span class="sub">Steam · 에픽 · PC방</span></span></button>
+        <button class="chip devc" data-d="콘솔"><span class="dvi">🎮</span><span style="display:flex;flex-direction:column;align-items:flex-start"><b>콘솔</b><span class="sub">스위치 · PS · Xbox</span></span></button>
+      </div>
+    </fieldset>
+    <p class="sub" style="margin:0">건너뛰면 모든 기기의 게임이 플랫폼 배지와 함께 보여요. 홈의 전체 · 모바일 · PC · 콘솔 탭으로 나눠 볼 수 있어요.</p>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:8px"><button class="btn-line" onclick="r10done(true)">건너뛰기</button><button class="btn" onclick="r10done(false)">완료하고 시작하기</button></div>
+  </div>
+  <style>
+    .devc{box-sizing:border-box;min-height:72px;border-radius:var(--radius);display:flex;align-items:center;gap:14px;padding:0 16px;text-align:left;width:100%}
+    .devc .dvi{width:44px;height:44px;border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none}
+    .devc b{font-size:16px}.devc.on{background:#f3efff;color:#4a22c9;border-color:var(--main);box-shadow:0 0 0 3px rgba(108,59,255,.12)}.devc.on .sub{color:#4a22c9}
+    .devc::after{content:"";margin-left:auto;width:22px;height:22px;border-radius:7px;border:1.5px solid var(--line);background:#fff;flex:none}
+    .devc.on::after{background:var(--main) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-4.9' fill='none' stroke='%23fff' stroke-width='1.8'/%3E%3C/svg%3E") center/13px no-repeat;border-color:var(--main)}
+  </style>
+  <script>
+    function r10done(skip){const d=skip?[]:[...document.querySelectorAll('[id="1.0"] .devc.on')].map(b=>b.dataset.d);
+      const lab=d.length&&d.length<3?d.join(' · '):'전체';const a=document.querySelector('a[href="#5.0"]');if(a)a.textContent='내 기기: '+lab;
+      if(window.setR20)setR20(window.LAST_SEL&&LAST_SEL.length?LAST_SEL:['3만 원 이하','5인 이상','협동'],d.length===1?d[0]:'전체');
+      toast(d.length?lab+' 기준으로 시작해요':'모든 기기의 게임을 보여드릴게요');location.hash='#2.0'}
+  </script>
+</section>
 <section class="screen" id="2.0" data-name="조건 선택 · 결과">
   <header class="topbar">
     <a class="logo" href="#2.0">Gempick</a>
