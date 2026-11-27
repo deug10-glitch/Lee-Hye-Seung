@@ -69,7 +69,7 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
   </header>
   <div style="padding:20px 16px;display:flex;flex-direction:column;gap:24px">
     <section style="display:flex;flex-direction:column;gap:14px">
-      <div style="display:flex;flex-direction:column;gap:2px;position:relative;padding-right:76px"><img data-m="wink" alt="" style="position:absolute;right:-4px;top:-14px;width:76px;height:76px;object-fit:contain"><h1 style="font-size:24px">지금 내 상황은?</h1><span class="sub">조건을 고르면 맞는 게임만 추려 보여드려요</span></div>
+      <div style="display:flex;flex-direction:column;gap:2px;position:relative;padding-right:76px"><img data-m="wink" id="peek" alt="" style="position:absolute;right:-4px;top:-14px;width:76px;height:76px;object-fit:contain"><h1 style="font-size:24px">지금 내 상황은?</h1><span class="sub">조건을 고르면 맞는 게임만 추려 보여드려요</span></div>
       <div class="fbar" role="group" aria-label="조건 필터"><button class="fbtn fall" onclick="fsOpen('cost')" aria-label="전체 필터"><b aria-hidden="true">☰</b> 필터</button><button class="fbtn" data-g="cost" onclick="fsOpen('cost')"><span>비용</span> <b aria-hidden="true">▾</b></button><button class="fbtn" data-g="time" onclick="fsOpen('time')"><span>시간</span> <b aria-hidden="true">▾</b></button><button class="fbtn" data-g="ads" onclick="fsOpen('ads')"><span>광고 · 접속</span> <b aria-hidden="true">▾</b></button><button class="fbtn" data-g="people" onclick="fsOpen('people')"><span>함께 플레이</span> <b aria-hidden="true">▾</b></button><button class="fbtn" data-g="taste" onclick="fsOpen('taste')"><span>취향 · 테마</span> <b aria-hidden="true">▾</b></button><button class="fbtn" data-g="level" onclick="fsOpen('level')"><span>난이도</span> <b aria-hidden="true">▾</b></button></div>
     </section>
     <div id="fs-dim" class="fs-dim" onclick="fsClose()"></div>
@@ -232,6 +232,9 @@ window.render20=render20;
 window.setR20=function(sel,t){S20().querySelectorAll('.cond .chip').forEach(c=>c.classList.toggle('on',sel.includes(c.textContent)));S20().querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.textContent===t));render20()};
 window.r20rm=function(b){const t=b.textContent.replace(' ×','');S20().querySelectorAll('.cond .chip').forEach(c=>{if(c.textContent===t)c.classList.remove('on')});toast(`'${t}' 조건을 뺐어요`)};
 window.r20=function(empty){if(empty)setR20(['5인 이상','한 판 5분 이내','힐링','오프라인 가능'],'전체');else setR20(['3만 원 이하','5인 이상','협동'],'PC')};
+function alignPeek(){const m=$('peek'),b=S20().querySelector('.fbtn[data-g="ads"]');if(!m||!b||!S20().classList.contains('on'))return;const par=m.parentElement.getBoundingClientRect(),br=b.getBoundingClientRect(),bar=b.parentElement.getBoundingClientRect();
+ const vis=Math.min(br.right,bar.right)-Math.max(br.left,bar.left);const cx=Math.max(br.left,bar.left)+vis/2;const w=m.offsetWidth;let left=cx-par.left-w/2;left=Math.min(left,par.width-w+16);m.style.left=left+'px';m.style.right='auto'}
+addEventListener('resize',alignPeek);addEventListener('hashchange',()=>setTimeout(alignPeek,0));if(document.fonts&&document.fonts.ready)document.fonts.ready.then(alignPeek);setTimeout(alignPeek,0);
 const GN={cost:'비용',time:'시간',ads:'광고 · 접속',people:'함께 플레이',taste:'취향 · 테마',level:'난이도'};
 function updBar(n){S20().querySelectorAll('.fpanel').forEach(f=>{const g=f.dataset.g,on=[...f.querySelectorAll('.chip.on')].map(c=>c.textContent);
  const b=S20().querySelector(`.fbtn[data-g="${g}"]`);b.classList.toggle('act',on.length>0);b.querySelector('span').textContent=on.length===0?GN[g]:on.length===1?on[0]:`${GN[g]} ${on.length}`;
