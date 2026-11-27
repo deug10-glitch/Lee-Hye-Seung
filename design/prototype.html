@@ -276,7 +276,7 @@ const S=[...document.querySelectorAll(".screen")],L=document.getElementById("lis
 L.innerHTML=S.map(s=>`<a href="#${s.id}">${s.id} ${s.dataset.name||""}</a>`).join("");
 document.getElementById("idx").onclick=()=>L.classList.toggle("on");
 function toast(m){T.textContent=m;T.classList.add("on");clearTimeout(T._t);T._t=setTimeout(()=>T.classList.remove("on"),1600)}
-function show(){const id=decodeURIComponent(location.hash.slice(1));const t=S.find(s=>s.id===id)||S.find(s=>s.id==="2.0");if(id&&!S.some(s=>s.id===id))toast("아직 만들지 않은 화면이에요");S.forEach(s=>s.classList.toggle("on",s===t));L.classList.remove("on");t.scrollTop=0;window.scrollTo(0,0)}
+function show(){const id=decodeURIComponent(location.hash.slice(1));const t=S.find(s=>s.id===id)||S[0];if(id&&!S.some(s=>s.id===id))toast("아직 만들지 않은 화면이에요");S.forEach(s=>s.classList.toggle("on",s===t));L.classList.remove("on");t.scrollTop=0;window.scrollTo(0,0)}
 addEventListener("hashchange",show);show();
 document.addEventListener("click",e=>{const c=e.target.closest(".chip");if(c&&!c.closest('[id="3.0"]'))c.classList.toggle("on");const t=e.target.closest(".tab");if(t){t.parentElement.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x===t))}});
 </script>
