@@ -1,7 +1,7 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Gempick 프로토타입</title>
 <style>
-:root{--main:#3366ff;--accent:#e4694c;--bg:#ffffff;--surface:#f4f6fb;--text:#1d1d1f;--sub:#55555c;--line:#e3e5ec;--radius:16px}
+:root{--main:#6c3bff;--main-dark:#5326e0;--accent:#c6ff3d;--bg:#ffffff;--surface:#f5f3ff;--text:#1d1d1f;--sub:#55556a;--line:#e2def5;--radius:16px}
 *{box-sizing:border-box}body{margin:0;background:#eceef1;font-family:system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--text);line-height:1.6}
 .device{width:1200px;max-width:100%;min-height:720px;margin:24px auto;background:var(--bg);border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.12);overflow:hidden;position:relative}
 .screen{display:none;min-height:720px}.screen.on{display:block}
@@ -12,7 +12,7 @@
 h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size:20px;font-weight:700}h3{font-size:17px;font-weight:700}
 .sub{color:var(--sub);font-size:13px}
 .btn,.btn-line{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:transform .08s}
-.btn{background:var(--main);color:#fff;border:none}.btn-line{background:#fff;color:var(--text);border:1.5px solid var(--line)}
+.btn{background:var(--main);color:#fff;border:none}.btn:hover{background:var(--main-dark)}.btn-line{background:#fff;color:var(--text);border:1.5px solid var(--line)}
 .btn:active,.btn-line:active,.chip:active,.tab:active,.card:active{transform:scale(.97)}
 .btn.sm,.btn-line.sm{min-height:44px;padding:0 16px;font-size:14px}
 .input{height:48px;border:1.5px solid var(--line);border-radius:12px;padding:0 16px;font:inherit;font-size:15px;width:100%}.input:focus{outline:none;border-color:var(--main)}
@@ -21,15 +21,15 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
 .tabs{display:inline-flex;gap:4px;background:var(--surface);border-radius:14px;padding:4px}
 .tab{min-height:44px;min-width:72px;padding:0 16px;border:none;border-radius:10px;background:transparent;font:inherit;font-size:14px;cursor:pointer;color:var(--text)}.tab.on{background:#fff;color:var(--main);font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .card{display:flex;flex-direction:column;border:1.5px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff;color:inherit;text-decoration:none;transition:border-color .15s,transform .08s}.card:hover{border-color:var(--main)}
-.ph{background:#dfe3ec;color:var(--sub);display:flex;align-items:center;justify-content:center;font-size:13px;text-align:center}
-.badge{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px;background:#e8eeff;color:#1f45b8}
+.ph{background:#e9e6f5;color:var(--sub);display:flex;align-items:center;justify-content:center;font-size:13px;text-align:center}
+.badge{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px;background:#eee8ff;color:#4a22c9}
 .badge-accent{display:inline-block;font-size:12px;font-weight:800;border-radius:6px;padding:2px 8px;background:var(--accent);color:#1d1d1f}
 .box{background:var(--surface);border-radius:var(--radius);padding:20px}
 .topbar{display:flex;align-items:center;gap:16px;padding:16px 32px;border-bottom:1.5px solid var(--line);background:#fff}
 .logo{font-size:24px;font-weight:800;color:var(--main);letter-spacing:-.5px;text-decoration:none}
 .mascot{width:28px;height:28px;border-radius:50%;background:var(--accent);display:inline-block}
-.pending{color:#b2391e;font-weight:800}
-.state-bar{display:flex;gap:8px;justify-content:center;padding:16px;border-top:1.5px dashed var(--line);background:#fafbfd}
+.pending{color:var(--main-dark);font-weight:800}
+.state-bar{display:flex;gap:8px;justify-content:center;padding:16px;border-top:1.5px dashed var(--line);background:#faf9ff}
 </style></head><body>
 <button id="idx">화면 목록</button><div id="list"></div>
 <div class="device">
@@ -87,6 +87,80 @@ h1,h2,h3{margin:0;line-height:1.3}h1{font-size:28px;font-weight:800}h2{font-size
   </style>
   <script>
     function r20(empty){document.getElementById('r20-list').style.display=empty?'none':'grid';document.getElementById('r20-empty').style.display=empty?'flex':'none';document.getElementById('r20-title').textContent=empty?'조건에 맞는 게임 0개':'조건에 맞는 게임 [N]개'}
+  </script>
+</section>
+<section class="screen" id="2.1" data-name="게임 상세">
+  <header class="topbar">
+    <a class="btn-line sm" href="#2.0">← 결과로 돌아가기</a>
+    <a class="logo" href="#2.0" style="margin-left:auto">Gempick</a>
+  </header>
+  <div style="padding:32px;display:flex;flex-direction:column;gap:32px">
+    <section style="display:flex;gap:32px">
+      <div class="ph" style="flex:1 1 560px;aspect-ratio:16/9;border-radius:var(--radius);font-size:14px">대표 이미지 · 플레이 영상</div>
+      <div style="flex:1 1 360px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;flex-wrap:wrap;gap:6px"><span class="badge">PC</span><span class="badge">스위치</span><span class="badge">크로스플랫폼</span></div>
+        <h1>게임 이름 B</h1>
+        <p class="sub" style="font-size:15px;margin:0">[한두 줄 게임 소개]</p>
+        <div class="box" style="display:flex;flex-direction:column;gap:6px;border-left:6px solid var(--accent)">
+          <strong style="font-size:13px">추천 이유</strong>
+          <span style="font-size:14px">고른 조건 '1~4인', '강제 광고 없음', '조작 쉬움'과 맞아요.</span>
+          <span class="sub">2단계 개인화: 싫어하는 요소 '과도한 노가다'가 없어요.</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <span class="sub">스토어에서 보기</span>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <button class="btn" onclick="toast('스팀 스토어로 이동해요')">스팀 · [가격]</button>
+            <button class="btn-line" onclick="toast('닌텐도 e숍으로 이동해요')">닌텐도 e숍 · [가격]</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <h2>한눈에 보는 조건</h2>
+        <span class="sub">자동 추정 = 스토어 정보·리뷰 분석 / 이용자 확인 = 해본 사람이 맞다고 확인</span>
+      </div>
+      <div style="border:1.5px solid var(--line);border-radius:var(--radius);overflow:hidden">
+        <table class="facts">
+          <thead><tr><th scope="col">조건</th><th scope="col">내용</th><th scope="col">출처</th><th scope="col"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">보정</span></th></tr></thead>
+          <tbody>
+            <tr><th scope="row">과금</th><td>구매형 [가격], 추가 결제 없음</td><td class="sub">이용자 확인 [N]명</td><td></td></tr>
+            <tr><th scope="row">하루 플레이 시간</th><td>자유 (출석 · 숙제 없음)</td><td class="sub">자동 추정</td><td></td></tr>
+            <tr><th scope="row">한 판 시간</th><td>약 20~30분</td><td class="sub">자동 추정</td><td></td></tr>
+            <tr><th scope="row">플레이 중 광고</th><td>없음</td><td class="sub">이용자 확인 [N]명</td><td></td></tr>
+            <tr><th scope="row">오프라인 플레이</th><td class="pending">확인 중</td><td class="sub">정보 없음</td><td><button class="btn-line sm" onclick="r21fix(this)">해봤다면 알려주세요</button></td></tr>
+            <tr><th scope="row">최대 인원</th><td>1~4인 · 온라인 협동</td><td class="sub">스토어 정보</td><td></td></tr>
+            <tr class="r21-spec"><th scope="row">권장 사양</th><td class="pending">확인 중</td><td class="sub">정보 없음</td><td><button class="btn-line sm" onclick="r21fix(this,true)">해봤다면 알려주세요</button></td></tr>
+            <tr><th scope="row">조작 난이도</th><td>쉬움 (피지컬 부담 적음)</td><td class="sub">자동 추정</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="box" style="display:flex;align-items:center;justify-content:space-between;gap:16px;border:1.5px dashed #b9a6ff">
+      <div><h3>이 정보가 실제와 맞나요?</h3><p class="sub" style="margin:4px 0 0;font-size:14px">해본 사람의 확인이 다음 사람의 선택을 돕습니다.</p></div>
+      <div style="display:flex;gap:10px"><button class="btn-line sm" onclick="toast('확인해 주셔서 고마워요')">맞아요</button><button class="btn-line sm" onclick="toast('고칠 내용을 받았어요. 검토 후 반영할게요')">달라요 · 고치기</button></div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;gap:14px">
+      <h2>비슷한 조건의 게임</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+        <a class="card" href="#2.1" onclick="toast('게임 이름 D 상세로 이동했어요')"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><h3>게임 이름 D</h3></div></a>
+        <a class="card" href="#2.1" onclick="toast('게임 이름 F 상세로 이동했어요')"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><h3>게임 이름 F</h3></div></a>
+        <a class="card" href="#2.1" onclick="toast('게임 이름 H 상세로 이동했어요')"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><h3>게임 이름 H</h3></div></a>
+        <a class="card" href="#2.1" onclick="toast('게임 이름 I 상세로 이동했어요')"><div class="ph" style="aspect-ratio:16/10">게임 아이콘 · 대표 이미지</div><div class="cbody"><h3>게임 이름 I</h3></div></a>
+      </div>
+    </section>
+  </div>
+  <div class="state-bar"><span class="sub" style="align-self:center">모습 바꿔 보기</span><button class="btn-line sm" onclick="r21spec(true)">권장 사양 확인 중</button><button class="btn-line sm" onclick="r21spec(false)">권장 사양 확인됨</button></div>
+  <style>
+    .facts{width:100%;border-collapse:collapse;font-size:14px}.facts th,.facts td{padding:12px 16px;text-align:left}.facts tbody tr{border-top:1.5px solid var(--line)}
+    .facts thead tr{background:var(--surface)}.facts tbody th{font-weight:500;color:var(--sub);white-space:nowrap}.facts td:last-child{text-align:right;padding:6px 16px}
+  </style>
+  <script>
+    function r21fix(b,spec){b.textContent='보정 요청 보냄 ✓';b.disabled=true;toast('보정 요청을 남겼어요');if(spec)setTimeout(()=>{location.hash='#2.0'},1200)}
+    function r21spec(p){const r=document.getElementById('2.1').querySelector('.r21-spec'),b=r.querySelector('button');r.cells[1].textContent=p?'확인 중':'최소 GTX 1050 · RAM 8GB';r.cells[1].className=p?'pending':'';r.cells[2].textContent=p?'정보 없음':'스토어 정보';b.style.display=p?'':'none';b.disabled=false;b.textContent='해봤다면 알려주세요'}
   </script>
 </section>
 <!-- 화면 끝 -->
